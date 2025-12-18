@@ -1,23 +1,27 @@
 package ucanlib
 
-import "github.com/alanshaw/ucantone/ucan"
+import (
+	"context"
+
+	"github.com/alanshaw/ucantone/ucan"
+)
 
 type DelegationQuerier interface {
 	// Query finds delegations matching the given audience, command, and subject.
 	// Note: subject MUST not be nil. Matching delegations MAY include powerline
 	// delegations (with nil subject) and delegations where command is a matching
 	// parent of the passed command.
-	Query(aud ucan.Principal, cmd ucan.Command, sub ucan.Subject) ([]ucan.Delegation, error)
+	Query(ctx context.Context, aud ucan.Principal, cmd ucan.Command, sub ucan.Subject) ([]ucan.Delegation, error)
 }
 
 // ProofChain recursively builds a proof chain of delegations from the given
 // audience to the given subject for the specified command. It returns the list
 // of delegations and their corresponding links.
-func ProofChain(store DelegationQuerier, aud ucan.Principal, cmd ucan.Command, sub ucan.Principal) ([]ucan.Delegation, []ucan.Link, error) {
+func ProofChain(ctx context.Context, store DelegationQuerier, aud ucan.Principal, cmd ucan.Command, sub ucan.Principal) ([]ucan.Delegation, []ucan.Link, error) {
 	proofs := []ucan.Delegation{}
 	links := []ucan.Link{}
 
-	matches, err := store.Query(aud, cmd, sub)
+	matches, err := store.Query(ctx, aud, cmd, sub)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -29,7 +33,7 @@ func ProofChain(store DelegationQuerier, aud ucan.Principal, cmd ucan.Command, s
 			break
 		}
 		// if subject is nil, or subject != issuer, we need more proof
-		ps, ls, err := ProofChain(store, d.Issuer(), d.Command(), sub)
+		ps, ls, err := ProofChain(ctx, store, d.Issuer(), d.Command(), sub)
 		if err != nil {
 			return nil, nil, err
 		}
