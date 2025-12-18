@@ -5,7 +5,10 @@ import (
 	"github.com/alanshaw/ucantone/validator/bindcap"
 )
 
-type LocationArguments = datamodel.LocationArgumentsModel
+type (
+	LocationArguments = datamodel.LocationArgumentsModel
+	Range             = datamodel.RangeModel
+)
 
 const LocationCommand = "/assert/location"
 
