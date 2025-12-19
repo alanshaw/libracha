@@ -1,11 +1,15 @@
 package ucan
 
 import (
-	"github.com/alanshaw/libracha/capabilities/ucan/datamodel"
+	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
+	udm "github.com/alanshaw/libracha/capabilities/ucan/datamodel"
 	"github.com/alanshaw/ucantone/validator/bindcap"
 )
 
-type ConcludeArguments = datamodel.ConcludeArgumentsModel
+type (
+	ConcludeArguments = udm.ConcludeArgumentsModel
+	ConcludeOK        = cdm.UnitModel
+)
 
 const ConcludeCommand = "/ucan/conclude"
 
