@@ -26,7 +26,8 @@ type Finder interface {
 // expects the URL path to end with the task CID, e.g. /receipt/<task-cid>
 func NewHandler(tokens Finder) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		parts := strings.Split(r.URL.Path, "/")
+		path := strings.TrimSuffix(r.URL.Path, "/")
+		parts := strings.Split(path, "/")
 		if len(parts) == 0 {
 			http.Error(w, "missing task CID", http.StatusBadRequest)
 			return
