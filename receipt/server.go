@@ -32,7 +32,7 @@ func NewHandler(tokens Finder) http.Handler {
 			http.Error(w, "missing task CID", http.StatusBadRequest)
 			return
 		}
-		taskLink, err := cid.Parse(parts[len(parts)-1])
+		task, err := cid.Parse(parts[len(parts)-1])
 		if err != nil {
 			http.Error(w, fmt.Sprintf("invalid task CID: %v", err), http.StatusBadRequest)
 			return
@@ -41,7 +41,7 @@ func NewHandler(tokens Finder) http.Handler {
 		var invocations []ucan.Invocation
 		var delegations []ucan.Delegation
 		var receipts []ucan.Receipt
-		for c, err := range tokens.FindByTask(r.Context(), taskLink) {
+		for c, err := range tokens.FindByTask(r.Context(), task) {
 			if err != nil {
 				http.Error(w, fmt.Sprintf("failed to find receipt token: %v", err), http.StatusInternalServerError)
 				return
@@ -56,6 +56,11 @@ func NewHandler(tokens Finder) http.Handler {
 			container.WithDelegations(delegations...),
 			container.WithReceipts(receipts...),
 		)
+
+		if _, ok := out.Receipt(task); !ok {
+			http.Error(w, "receipt not found for task", http.StatusNotFound)
+			return
+		}
 
 		w.Header().Set("Content-Type", dagcbor.ContentType)
 		err = out.MarshalCBOR(w)
