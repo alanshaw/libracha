@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"iter"
 	"net/http"
+	"strings"
 
 	"github.com/alanshaw/ucantone/ipld/codec/dagcbor"
 	"github.com/alanshaw/ucantone/ucan"
@@ -21,9 +22,16 @@ type Finder interface {
 	FindByTask(ctx context.Context, task cid.Cid) iter.Seq2[ucan.Container, error]
 }
 
+// NewHandler creates a new [http.Handler] that serves receipt containers. It
+// expects the URL path to end with the task CID, e.g. /receipt/<task-cid>
 func NewHandler(tokens Finder) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		taskLink, err := cid.Parse(r.PathValue("task"))
+		parts := strings.Split(r.URL.Path, "/")
+		if len(parts) == 0 {
+			http.Error(w, "missing task CID", http.StatusBadRequest)
+			return
+		}
+		taskLink, err := cid.Parse(parts[len(parts)-1])
 		if err != nil {
 			http.Error(w, fmt.Sprintf("invalid task CID: %v", err), http.StatusBadRequest)
 			return
