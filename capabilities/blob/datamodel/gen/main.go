@@ -15,6 +15,8 @@ func main() {
 		bdm.AcceptOKModel{},
 		bdm.AddArgumentsModel{},
 		bdm.AddOKModel{},
+		bdm.ReplicateArgumentsModel{},
+		bdm.ReplicateOKModel{},
 	); err != nil {
 		panic(err)
 	}

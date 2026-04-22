@@ -19,6 +19,6 @@ var Add, _ = bindcap.New[*AddArguments](
 	AddCommand,
 	capability.WithPolicyBuilder(
 		policy.GreaterThan(".blob.size", 0),
-		policy.LessThanOrEqual(".blob.size", 268_435_456),
+		policy.LessThanOrEqual(".blob.size", MaxBlobSize),
 	),
 )

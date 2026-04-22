@@ -7,6 +7,8 @@ import (
 	"github.com/alanshaw/ucantone/validator/capability"
 )
 
+const MaxBlobSize = 268_435_456
+
 type (
 	AllocateArguments = bdm.AllocateArgumentsModel
 	AllocateOK        = bdm.AllocateOKModel
@@ -19,6 +21,6 @@ var Allocate, _ = bindcap.New[*AllocateArguments](
 	AllocateCommand,
 	capability.WithPolicyBuilder(
 		policy.GreaterThan(".blob.size", 0),
-		policy.LessThanOrEqual(".blob.size", 268_435_456),
+		policy.LessThanOrEqual(".blob.size", MaxBlobSize),
 	),
 )
