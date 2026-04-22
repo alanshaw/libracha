@@ -3,6 +3,7 @@ package ucanlib
 import (
 	"context"
 	"iter"
+	"slices"
 
 	"github.com/alanshaw/ucantone/ucan"
 	"github.com/alanshaw/ucantone/ucan/command"
@@ -54,7 +55,7 @@ func (gm *FinderDelegationMatcher) Match(ctx context.Context, aud ucan.Principal
 				}
 			}
 			// try powerline
-			// TODO: stop earily if we already found delegations?
+			// TODO: stop early if we already found delegations?
 			for dlg, err := range gm.finder.FindByAudienceCommandSubject(ctx, aud, cmd, nil) {
 				if err != nil {
 					yield(nil, err)
@@ -70,10 +71,26 @@ func (gm *FinderDelegationMatcher) Match(ctx context.Context, aud ucan.Principal
 
 // ProofChain recursively builds a proof chain of delegations from the given
 // audience to the given subject for the specified command. It returns the list
-// of delegations and their corresponding links.
+// of delegations and their corresponding links in the order required for
+// invocation. i.e. starting from the root Delegation (issued by the Subject),
+// in strict sequence where the aud of the previous Delegation matches the iss
+// of the next Delegation.
 func ProofChain(ctx context.Context, matcher DelegationMatcher, aud ucan.Principal, cmd ucan.Command, sub ucan.Principal) ([]ucan.Delegation, []ucan.Link, error) {
-	proofs := []ucan.Delegation{}
-	links := []ucan.Link{}
+	proofs, links, err := proofChain(ctx, matcher, aud, cmd, sub)
+	if err != nil {
+		return nil, nil, err
+	}
+	slices.Reverse(proofs)
+	slices.Reverse(links)
+	return proofs, links, nil
+}
+
+// proofChain returns the delegations and links from the audience toward the
+// subject, i.e. in reverse of the invocation order. [ProofChain] reverses the
+// result before returning it to the caller.
+func proofChain(ctx context.Context, matcher DelegationMatcher, aud ucan.Principal, cmd ucan.Command, sub ucan.Principal) ([]ucan.Delegation, []ucan.Link, error) {
+	var proofs []ucan.Delegation
+	var links []ucan.Link
 
 	for d, err := range matcher.Match(ctx, aud, cmd, sub) {
 		if err != nil {
@@ -85,7 +102,7 @@ func ProofChain(ctx context.Context, matcher DelegationMatcher, aud ucan.Princip
 			break
 		}
 		// if subject is nil, or subject != issuer, we need more proof
-		ps, ls, err := ProofChain(ctx, matcher, d.Issuer(), d.Command(), sub)
+		ps, ls, err := proofChain(ctx, matcher, d.Issuer(), d.Command(), sub)
 		if err != nil {
 			return nil, nil, err
 		}
