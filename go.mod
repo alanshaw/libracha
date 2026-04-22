@@ -3,7 +3,7 @@ module github.com/alanshaw/libracha
 go 1.25.3
 
 require (
-	github.com/alanshaw/ucantone v0.0.0-20251216172216-fb5018e58e72
+	github.com/alanshaw/ucantone v0.0.0-20260421195839-2264a6534d4f
 	github.com/ipfs/go-cid v0.6.0
 	github.com/ipfs/go-log/v2 v2.9.0
 	github.com/multiformats/go-multibase v0.2.0
@@ -13,7 +13,7 @@ require (
 )
 
 require (
-	github.com/alanshaw/dag-json-gen v0.0.3 // indirect
+	github.com/alanshaw/dag-json-gen v0.0.4 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
