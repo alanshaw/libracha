@@ -454,7 +454,7 @@ func (t *BlobAddressModel) MarshalCBOR(w io.Writer) error {
 		return err
 	}
 
-	// t.Expires (typegen.CborTime) (struct)
+	// t.Expires (capabilities.CborTime) (struct)
 	if len("expires") > 8192 {
 		return xerrors.Errorf("Value in field \"expires\" was too long")
 	}
@@ -577,7 +577,7 @@ func (t *BlobAddressModel) UnmarshalCBOR(r io.Reader) (err error) {
 				}
 
 			}
-			// t.Expires (typegen.CborTime) (struct)
+			// t.Expires (capabilities.CborTime) (struct)
 		case "expires":
 
 			{

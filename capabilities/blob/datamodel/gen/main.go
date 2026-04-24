@@ -1,12 +1,13 @@
 package main
 
 import (
+	jsg "github.com/alanshaw/dag-json-gen"
 	bdm "github.com/alanshaw/libracha/capabilities/blob/datamodel"
 	cbg "github.com/whyrusleeping/cbor-gen"
 )
 
 func main() {
-	if err := cbg.WriteMapEncodersToFile("../cbor_gen.go", "datamodel",
+	models := []any{
 		bdm.AllocateArgumentsModel{},
 		bdm.BlobModel{},
 		bdm.AllocateOKModel{},
@@ -17,7 +18,11 @@ func main() {
 		bdm.AddOKModel{},
 		bdm.ReplicateArgumentsModel{},
 		bdm.ReplicateOKModel{},
-	); err != nil {
+	}
+	if err := cbg.WriteMapEncodersToFile("../cbor_gen.go", "datamodel", models...); err != nil {
+		panic(err)
+	}
+	if err := jsg.WriteMapEncodersToFile("../json_gen.go", "datamodel", models...); err != nil {
 		panic(err)
 	}
 }
