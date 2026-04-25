@@ -8,6 +8,7 @@ import (
 
 func main() {
 	models := []any{
+		datamodel.IndexArgumentsModel{},
 		datamodel.LocationArgumentsModel{},
 		datamodel.RangeModel{},
 	}

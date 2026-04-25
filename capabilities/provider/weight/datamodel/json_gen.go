@@ -30,11 +30,11 @@ func (t *SetArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Provider (did.DID) (struct)
-	if len("Provider") > 8192 {
-		return fmt.Errorf("String in field \"Provider\" was too long")
+	if len("provider") > 8192 {
+		return fmt.Errorf("String in field \"provider\" was too long")
 	}
-	if err := jw.WriteString(string("Provider")); err != nil {
-		return fmt.Errorf("\"Provider\": %w", err)
+	if err := jw.WriteString(string("provider")); err != nil {
+		return fmt.Errorf("\"provider\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -50,11 +50,11 @@ func (t *SetArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Weight (uint64) (uint64)
-	if len("Weight") > 8192 {
-		return fmt.Errorf("String in field \"Weight\" was too long")
+	if len("weight") > 8192 {
+		return fmt.Errorf("String in field \"weight\" was too long")
 	}
-	if err := jw.WriteString(string("Weight")); err != nil {
-		return fmt.Errorf("\"Weight\": %w", err)
+	if err := jw.WriteString(string("weight")); err != nil {
+		return fmt.Errorf("\"weight\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -105,14 +105,14 @@ func (t *SetArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Provider (did.DID) (struct)
-			case "Provider":
+			case "provider":
 
 				if err := t.Provider.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Provider: %w", err)
 				}
 
 				// t.Weight (uint64) (uint64)
-			case "Weight":
+			case "weight":
 				{
 
 					nval, err := jr.ReadNumberAsUint64()

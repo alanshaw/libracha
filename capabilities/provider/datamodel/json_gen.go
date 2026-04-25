@@ -260,11 +260,11 @@ func (t *ListOKModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Providers ([]datamodel.ProviderModel) (slice)
-	if len("Providers") > 8192 {
-		return fmt.Errorf("String in field \"Providers\" was too long")
+	if len("list") > 8192 {
+		return fmt.Errorf("String in field \"list\" was too long")
 	}
-	if err := jw.WriteString(string("Providers")); err != nil {
-		return fmt.Errorf("\"Providers\": %w", err)
+	if err := jw.WriteString(string("list")); err != nil {
+		return fmt.Errorf("\"list\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -330,7 +330,7 @@ func (t *ListOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Providers ([]datamodel.ProviderModel) (slice)
-			case "Providers":
+			case "list":
 				{
 
 					if err := jr.ReadArrayOpen(); err != nil {
@@ -404,11 +404,11 @@ func (t *RegisterArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Endpoint (string) (string)
-	if len("Endpoint") > 8192 {
-		return fmt.Errorf("String in field \"Endpoint\" was too long")
+	if len("endpoint") > 8192 {
+		return fmt.Errorf("String in field \"endpoint\" was too long")
 	}
-	if err := jw.WriteString(string("Endpoint")); err != nil {
-		return fmt.Errorf("\"Endpoint\": %w", err)
+	if err := jw.WriteString(string("endpoint")); err != nil {
+		return fmt.Errorf("\"endpoint\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -427,11 +427,11 @@ func (t *RegisterArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Provider (did.DID) (struct)
-	if len("Provider") > 8192 {
-		return fmt.Errorf("String in field \"Provider\" was too long")
+	if len("provider") > 8192 {
+		return fmt.Errorf("String in field \"provider\" was too long")
 	}
-	if err := jw.WriteString(string("Provider")); err != nil {
-		return fmt.Errorf("\"Provider\": %w", err)
+	if err := jw.WriteString(string("provider")); err != nil {
+		return fmt.Errorf("\"provider\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -480,7 +480,7 @@ func (t *RegisterArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Endpoint (string) (string)
-			case "Endpoint":
+			case "endpoint":
 				{
 					sval, err := jr.ReadString(8192)
 					if err != nil {
@@ -493,7 +493,7 @@ func (t *RegisterArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 				}
 
 				// t.Provider (did.DID) (struct)
-			case "Provider":
+			case "provider":
 
 				if err := t.Provider.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Provider: %w", err)
@@ -532,11 +532,11 @@ func (t *DeregisterArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Provider (did.DID) (struct)
-	if len("Provider") > 8192 {
-		return fmt.Errorf("String in field \"Provider\" was too long")
+	if len("provider") > 8192 {
+		return fmt.Errorf("String in field \"provider\" was too long")
 	}
-	if err := jw.WriteString(string("Provider")); err != nil {
-		return fmt.Errorf("\"Provider\": %w", err)
+	if err := jw.WriteString(string("provider")); err != nil {
+		return fmt.Errorf("\"provider\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -584,7 +584,7 @@ func (t *DeregisterArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Provider (did.DID) (struct)
-			case "Provider":
+			case "provider":
 
 				if err := t.Provider.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Provider: %w", err)

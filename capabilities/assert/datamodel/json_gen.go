@@ -19,6 +19,139 @@ var _ = math.E
 var _ = sort.Sort
 var _ = errors.Is
 
+func (t *IndexArgumentsModel) MarshalDagJSON(w io.Writer) error {
+	jw := jsg.NewDagJsonWriter(w)
+	if t == nil {
+		err := jw.WriteNull()
+		return err
+	}
+	if err := jw.WriteObjectOpen(); err != nil {
+		return err
+	}
+	written := 0
+
+	// t.Content (cid.Cid) (struct)
+	if len("content") > 8192 {
+		return fmt.Errorf("String in field \"content\" was too long")
+	}
+	if err := jw.WriteString(string("content")); err != nil {
+		return fmt.Errorf("\"content\": %w", err)
+	}
+	if err := jw.WriteObjectColon(); err != nil {
+		return err
+	}
+
+	if err := jw.WriteCid(t.Content); err != nil {
+		return fmt.Errorf("t.Content: %w", err)
+	}
+
+	written++
+	if written > 0 {
+		if err := jw.WriteComma(); err != nil {
+			return err
+		}
+	}
+
+	// t.Index (cid.Cid) (struct)
+	if len("index") > 8192 {
+		return fmt.Errorf("String in field \"index\" was too long")
+	}
+	if err := jw.WriteString(string("index")); err != nil {
+		return fmt.Errorf("\"index\": %w", err)
+	}
+	if err := jw.WriteObjectColon(); err != nil {
+		return err
+	}
+
+	if err := jw.WriteCid(t.Index); err != nil {
+		return fmt.Errorf("t.Index: %w", err)
+	}
+
+	written++
+	if err := jw.WriteObjectClose(); err != nil {
+		return err
+	}
+	return nil
+}
+func (t *IndexArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
+	*t = IndexArgumentsModel{}
+
+	jr := jsg.NewDagJsonReader(r)
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+	if err := jr.ReadObjectOpen(); err != nil {
+		return fmt.Errorf("IndexArgumentsModel: %w", err)
+	}
+	close, err := jr.PeekObjectClose()
+	if err != nil {
+		return fmt.Errorf("IndexArgumentsModel: %w", err)
+	}
+	if close {
+		if err := jr.ReadObjectClose(); err != nil {
+			return fmt.Errorf("IndexArgumentsModel: %w", err)
+		}
+	} else {
+		for i := uint64(0); i < 8192; i++ {
+			name, err := jr.ReadString(8192)
+			if err != nil {
+				if errors.Is(err, jsg.ErrLimitExceeded) {
+					return fmt.Errorf("IndexArgumentsModel: string too large")
+				}
+				return fmt.Errorf("IndexArgumentsModel: %w", err)
+			}
+			if err := jr.ReadObjectColon(); err != nil {
+				return fmt.Errorf("IndexArgumentsModel: %w", err)
+			}
+			switch name {
+
+			// t.Content (cid.Cid) (struct)
+			case "content":
+				{
+
+					c, err := jr.ReadCid()
+					if err != nil {
+						return fmt.Errorf("t.Content: %w", err)
+					}
+					t.Content = c
+
+				}
+
+				// t.Index (cid.Cid) (struct)
+			case "index":
+				{
+
+					c, err := jr.ReadCid()
+					if err != nil {
+						return fmt.Errorf("t.Index: %w", err)
+					}
+					t.Index = c
+
+				}
+			default:
+				// Field doesn't exist on this type, so ignore it
+				if err := jr.DiscardType(); err != nil {
+					return fmt.Errorf("IndexArgumentsModel: ignoring field %s: %w", name, err)
+				}
+			}
+
+			close, err := jr.ReadObjectCloseOrComma()
+			if err != nil {
+				return fmt.Errorf("IndexArgumentsModel: %w", err)
+			}
+			if close {
+				break
+			}
+			if i == 8192-1 {
+				return fmt.Errorf("IndexArgumentsModel: map too large")
+			}
+		}
+	}
+
+	return nil
+}
 func (t *LocationArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	jw := jsg.NewDagJsonWriter(w)
 	if t == nil {
@@ -31,11 +164,11 @@ func (t *LocationArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Content (multihash.Multihash) (slice)
-	if len("Content") > 8192 {
-		return fmt.Errorf("String in field \"Content\" was too long")
+	if len("content") > 8192 {
+		return fmt.Errorf("String in field \"content\" was too long")
 	}
-	if err := jw.WriteString(string("Content")); err != nil {
-		return fmt.Errorf("\"Content\": %w", err)
+	if err := jw.WriteString(string("content")); err != nil {
+		return fmt.Errorf("\"content\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -56,11 +189,11 @@ func (t *LocationArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Location ([]capabilities.CborURL) (slice)
-	if len("Location") > 8192 {
-		return fmt.Errorf("String in field \"Location\" was too long")
+	if len("location") > 8192 {
+		return fmt.Errorf("String in field \"location\" was too long")
 	}
-	if err := jw.WriteString(string("Location")); err != nil {
-		return fmt.Errorf("\"Location\": %w", err)
+	if err := jw.WriteString(string("location")); err != nil {
+		return fmt.Errorf("\"location\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -87,26 +220,30 @@ func (t *LocationArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	written++
-	if written > 0 {
-		if err := jw.WriteComma(); err != nil {
-			return err
+	if t.Range != nil {
+		if written > 0 {
+			if err := jw.WriteComma(); err != nil {
+				return err
+			}
 		}
 	}
 
 	// t.Range (datamodel.RangeModel) (struct)
-	if len("Range") > 8192 {
-		return fmt.Errorf("String in field \"Range\" was too long")
+	if t.Range != nil {
+		if len("range") > 8192 {
+			return fmt.Errorf("String in field \"range\" was too long")
+		}
+		if err := jw.WriteString(string("range")); err != nil {
+			return fmt.Errorf("\"range\": %w", err)
+		}
+		if err := jw.WriteObjectColon(); err != nil {
+			return err
+		}
+		if err := t.Range.MarshalDagJSON(jw); err != nil {
+			return fmt.Errorf("t.Range: %w", err)
+		}
+		written++
 	}
-	if err := jw.WriteString(string("Range")); err != nil {
-		return fmt.Errorf("\"Range\": %w", err)
-	}
-	if err := jw.WriteObjectColon(); err != nil {
-		return err
-	}
-	if err := t.Range.MarshalDagJSON(jw); err != nil {
-		return fmt.Errorf("t.Range: %w", err)
-	}
-	written++
 	if written > 0 {
 		if err := jw.WriteComma(); err != nil {
 			return err
@@ -114,11 +251,11 @@ func (t *LocationArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Space (did.DID) (struct)
-	if len("Space") > 8192 {
-		return fmt.Errorf("String in field \"Space\" was too long")
+	if len("space") > 8192 {
+		return fmt.Errorf("String in field \"space\" was too long")
 	}
-	if err := jw.WriteString(string("Space")); err != nil {
-		return fmt.Errorf("\"Space\": %w", err)
+	if err := jw.WriteString(string("space")); err != nil {
+		return fmt.Errorf("\"space\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -167,7 +304,7 @@ func (t *LocationArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Content (multihash.Multihash) (slice)
-			case "Content":
+			case "content":
 
 				{
 					bval, err := jr.ReadBytes(2097152)
@@ -183,7 +320,7 @@ func (t *LocationArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 				}
 
 				// t.Location ([]capabilities.CborURL) (slice)
-			case "Location":
+			case "location":
 				{
 
 					if err := jr.ReadArrayOpen(); err != nil {
@@ -225,7 +362,7 @@ func (t *LocationArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 				}
 
 				// t.Range (datamodel.RangeModel) (struct)
-			case "Range":
+			case "range":
 
 				{
 					null, err := jr.PeekNull()
@@ -245,7 +382,7 @@ func (t *LocationArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 				}
 
 				// t.Space (did.DID) (struct)
-			case "Space":
+			case "space":
 
 				if err := t.Space.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Space: %w", err)
@@ -285,27 +422,29 @@ func (t *RangeModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Length (uint64) (uint64)
-	if len("Length") > 8192 {
-		return fmt.Errorf("String in field \"Length\" was too long")
-	}
-	if err := jw.WriteString(string("Length")); err != nil {
-		return fmt.Errorf("\"Length\": %w", err)
-	}
-	if err := jw.WriteObjectColon(); err != nil {
-		return err
-	}
-
-	if t.Length == nil {
-		if err := jw.WriteNull(); err != nil {
-			return fmt.Errorf("t.Length: %w", err)
+	if t.Length != nil {
+		if len("length") > 8192 {
+			return fmt.Errorf("String in field \"length\" was too long")
 		}
-	} else {
-		if err := jw.WriteUint64(uint64(*t.Length)); err != nil {
-			return fmt.Errorf("t.Length: %w", err)
+		if err := jw.WriteString(string("length")); err != nil {
+			return fmt.Errorf("\"length\": %w", err)
 		}
-	}
+		if err := jw.WriteObjectColon(); err != nil {
+			return err
+		}
 
-	written++
+		if t.Length == nil {
+			if err := jw.WriteNull(); err != nil {
+				return fmt.Errorf("t.Length: %w", err)
+			}
+		} else {
+			if err := jw.WriteUint64(uint64(*t.Length)); err != nil {
+				return fmt.Errorf("t.Length: %w", err)
+			}
+		}
+
+		written++
+	}
 	if written > 0 {
 		if err := jw.WriteComma(); err != nil {
 			return err
@@ -313,11 +452,11 @@ func (t *RangeModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Offset (uint64) (uint64)
-	if len("Offset") > 8192 {
-		return fmt.Errorf("String in field \"Offset\" was too long")
+	if len("offset") > 8192 {
+		return fmt.Errorf("String in field \"offset\" was too long")
 	}
-	if err := jw.WriteString(string("Offset")); err != nil {
-		return fmt.Errorf("\"Offset\": %w", err)
+	if err := jw.WriteString(string("offset")); err != nil {
+		return fmt.Errorf("\"offset\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -368,7 +507,7 @@ func (t *RangeModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Length (uint64) (uint64)
-			case "Length":
+			case "length":
 				{
 
 					nval, err := jr.ReadNumberAsUint64OrNull()
@@ -383,7 +522,7 @@ func (t *RangeModel) UnmarshalDagJSON(r io.Reader) (err error) {
 				}
 
 				// t.Offset (uint64) (uint64)
-			case "Offset":
+			case "offset":
 				{
 
 					nval, err := jr.ReadNumberAsUint64()

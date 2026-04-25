@@ -19,6 +19,131 @@ var _ = cid.Undef
 var _ = math.E
 var _ = sort.Sort
 
+func (t *IndexArgumentsModel) MarshalCBOR(w io.Writer) error {
+	if t == nil {
+		_, err := w.Write(cbg.CborNull)
+		return err
+	}
+
+	cw := cbg.NewCborWriter(w)
+
+	if _, err := cw.Write([]byte{162}); err != nil {
+		return err
+	}
+
+	// t.Index (cid.Cid) (struct)
+	if len("index") > 8192 {
+		return xerrors.Errorf("Value in field \"index\" was too long")
+	}
+
+	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("index"))); err != nil {
+		return err
+	}
+	if _, err := cw.WriteString(string("index")); err != nil {
+		return err
+	}
+
+	if err := cbg.WriteCid(cw, t.Index); err != nil {
+		return xerrors.Errorf("failed to write cid field t.Index: %w", err)
+	}
+
+	// t.Content (cid.Cid) (struct)
+	if len("content") > 8192 {
+		return xerrors.Errorf("Value in field \"content\" was too long")
+	}
+
+	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("content"))); err != nil {
+		return err
+	}
+	if _, err := cw.WriteString(string("content")); err != nil {
+		return err
+	}
+
+	if err := cbg.WriteCid(cw, t.Content); err != nil {
+		return xerrors.Errorf("failed to write cid field t.Content: %w", err)
+	}
+
+	return nil
+}
+
+func (t *IndexArgumentsModel) UnmarshalCBOR(r io.Reader) (err error) {
+	*t = IndexArgumentsModel{}
+
+	cr := cbg.NewCborReader(r)
+
+	maj, extra, err := cr.ReadHeader()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+
+	if maj != cbg.MajMap {
+		return fmt.Errorf("cbor input should be of type map")
+	}
+
+	if extra > cbg.MaxLength {
+		return fmt.Errorf("IndexArgumentsModel: map struct too large (%d)", extra)
+	}
+
+	n := extra
+
+	nameBuf := make([]byte, 7)
+	for i := uint64(0); i < n; i++ {
+		nameLen, ok, err := cbg.ReadFullStringIntoBuf(cr, nameBuf, 8192)
+		if err != nil {
+			return err
+		}
+
+		if !ok {
+			// Field doesn't exist on this type, so ignore it
+			if err := cbg.ScanForLinks(cr, func(cid.Cid) {}); err != nil {
+				return err
+			}
+			continue
+		}
+
+		switch string(nameBuf[:nameLen]) {
+		// t.Index (cid.Cid) (struct)
+		case "index":
+
+			{
+
+				c, err := cbg.ReadCid(cr)
+				if err != nil {
+					return xerrors.Errorf("failed to read cid field t.Index: %w", err)
+				}
+
+				t.Index = c
+
+			}
+			// t.Content (cid.Cid) (struct)
+		case "content":
+
+			{
+
+				c, err := cbg.ReadCid(cr)
+				if err != nil {
+					return xerrors.Errorf("failed to read cid field t.Content: %w", err)
+				}
+
+				t.Content = c
+
+			}
+
+		default:
+			// Field doesn't exist on this type, so ignore it
+			if err := cbg.ScanForLinks(r, func(cid.Cid) {}); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
 func (t *LocationArgumentsModel) MarshalCBOR(w io.Writer) error {
 	if t == nil {
 		_, err := w.Write(cbg.CborNull)

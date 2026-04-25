@@ -5,6 +5,6 @@ import (
 )
 
 type RegisterArgumentsModel struct {
-	Provider did.DID `cborgen:"provider"`
-	Endpoint string  `cborgen:"endpoint"`
+	Provider did.DID `cborgen:"provider" dagjsongen:"provider"`
+	Endpoint string  `cborgen:"endpoint" dagjsongen:"endpoint"`
 }

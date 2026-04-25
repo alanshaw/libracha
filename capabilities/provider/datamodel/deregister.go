@@ -5,5 +5,5 @@ import (
 )
 
 type DeregisterArgumentsModel struct {
-	Provider did.DID `cborgen:"provider"`
+	Provider did.DID `cborgen:"provider" dagjsongen:"provider"`
 }

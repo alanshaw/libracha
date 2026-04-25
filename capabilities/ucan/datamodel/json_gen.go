@@ -29,11 +29,11 @@ func (t *ConcludeArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Receipt (cid.Cid) (struct)
-	if len("Receipt") > 8192 {
-		return fmt.Errorf("String in field \"Receipt\" was too long")
+	if len("receipt") > 8192 {
+		return fmt.Errorf("String in field \"receipt\" was too long")
 	}
-	if err := jw.WriteString(string("Receipt")); err != nil {
-		return fmt.Errorf("\"Receipt\": %w", err)
+	if err := jw.WriteString(string("receipt")); err != nil {
+		return fmt.Errorf("\"receipt\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -83,7 +83,7 @@ func (t *ConcludeArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Receipt (cid.Cid) (struct)
-			case "Receipt":
+			case "receipt":
 				{
 
 					c, err := jr.ReadCid()

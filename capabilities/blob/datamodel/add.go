@@ -6,14 +6,14 @@ import (
 )
 
 type BlobModel struct {
-	Digest multihash.Multihash `cborgen:"digest"`
-	Size   uint64              `cborgen:"size"`
+	Digest multihash.Multihash `cborgen:"digest" dagjsongen:"digest"`
+	Size   uint64              `cborgen:"size" dagjsongen:"size"`
 }
 
 type AddArgumentsModel struct {
-	Blob BlobModel `cborgen:"blob"`
+	Blob BlobModel `cborgen:"blob" dagjsongen:"blob"`
 }
 
 type AddOKModel struct {
-	Site promise.AwaitOK `cborgen:"site"`
+	Site promise.AwaitOK `cborgen:"site" dagjsongen:"site"`
 }

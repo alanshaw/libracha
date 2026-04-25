@@ -29,11 +29,11 @@ func (t *BlobModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Digest (multihash.Multihash) (slice)
-	if len("Digest") > 8192 {
-		return fmt.Errorf("String in field \"Digest\" was too long")
+	if len("digest") > 8192 {
+		return fmt.Errorf("String in field \"digest\" was too long")
 	}
-	if err := jw.WriteString(string("Digest")); err != nil {
-		return fmt.Errorf("\"Digest\": %w", err)
+	if err := jw.WriteString(string("digest")); err != nil {
+		return fmt.Errorf("\"digest\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -86,7 +86,7 @@ func (t *BlobModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Digest (multihash.Multihash) (slice)
-			case "Digest":
+			case "digest":
 
 				{
 					bval, err := jr.ReadBytes(2097152)
@@ -135,11 +135,11 @@ func (t *RetrieveArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Blob (datamodel.BlobModel) (struct)
-	if len("Blob") > 8192 {
-		return fmt.Errorf("String in field \"Blob\" was too long")
+	if len("blob") > 8192 {
+		return fmt.Errorf("String in field \"blob\" was too long")
 	}
-	if err := jw.WriteString(string("Blob")); err != nil {
-		return fmt.Errorf("\"Blob\": %w", err)
+	if err := jw.WriteString(string("blob")); err != nil {
+		return fmt.Errorf("\"blob\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -155,11 +155,11 @@ func (t *RetrieveArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Range (datamodel.RangeModel) (struct)
-	if len("Range") > 8192 {
-		return fmt.Errorf("String in field \"Range\" was too long")
+	if len("range") > 8192 {
+		return fmt.Errorf("String in field \"range\" was too long")
 	}
-	if err := jw.WriteString(string("Range")); err != nil {
-		return fmt.Errorf("\"Range\": %w", err)
+	if err := jw.WriteString(string("range")); err != nil {
+		return fmt.Errorf("\"range\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -208,14 +208,14 @@ func (t *RetrieveArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Blob (datamodel.BlobModel) (struct)
-			case "Blob":
+			case "blob":
 
 				if err := t.Blob.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Blob: %w", err)
 				}
 
 				// t.Range (datamodel.RangeModel) (struct)
-			case "Range":
+			case "range":
 
 				if err := t.Range.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Range: %w", err)

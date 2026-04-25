@@ -31,11 +31,11 @@ func (t *AllocateArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Blob (datamodel.BlobModel) (struct)
-	if len("Blob") > 8192 {
-		return fmt.Errorf("String in field \"Blob\" was too long")
+	if len("blob") > 8192 {
+		return fmt.Errorf("String in field \"blob\" was too long")
 	}
-	if err := jw.WriteString(string("Blob")); err != nil {
-		return fmt.Errorf("\"Blob\": %w", err)
+	if err := jw.WriteString(string("blob")); err != nil {
+		return fmt.Errorf("\"blob\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -51,11 +51,11 @@ func (t *AllocateArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Cause (cid.Cid) (struct)
-	if len("Cause") > 8192 {
-		return fmt.Errorf("String in field \"Cause\" was too long")
+	if len("cause") > 8192 {
+		return fmt.Errorf("String in field \"cause\" was too long")
 	}
-	if err := jw.WriteString(string("Cause")); err != nil {
-		return fmt.Errorf("\"Cause\": %w", err)
+	if err := jw.WriteString(string("cause")); err != nil {
+		return fmt.Errorf("\"cause\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -106,14 +106,14 @@ func (t *AllocateArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Blob (datamodel.BlobModel) (struct)
-			case "Blob":
+			case "blob":
 
 				if err := t.Blob.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Blob: %w", err)
 				}
 
 				// t.Cause (cid.Cid) (struct)
-			case "Cause":
+			case "cause":
 				{
 
 					c, err := jr.ReadCid()
@@ -157,11 +157,11 @@ func (t *BlobModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Digest (multihash.Multihash) (slice)
-	if len("Digest") > 8192 {
-		return fmt.Errorf("String in field \"Digest\" was too long")
+	if len("digest") > 8192 {
+		return fmt.Errorf("String in field \"digest\" was too long")
 	}
-	if err := jw.WriteString(string("Digest")); err != nil {
-		return fmt.Errorf("\"Digest\": %w", err)
+	if err := jw.WriteString(string("digest")); err != nil {
+		return fmt.Errorf("\"digest\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -182,11 +182,11 @@ func (t *BlobModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Size (uint64) (uint64)
-	if len("Size") > 8192 {
-		return fmt.Errorf("String in field \"Size\" was too long")
+	if len("size") > 8192 {
+		return fmt.Errorf("String in field \"size\" was too long")
 	}
-	if err := jw.WriteString(string("Size")); err != nil {
-		return fmt.Errorf("\"Size\": %w", err)
+	if err := jw.WriteString(string("size")); err != nil {
+		return fmt.Errorf("\"size\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -237,7 +237,7 @@ func (t *BlobModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Digest (multihash.Multihash) (slice)
-			case "Digest":
+			case "digest":
 
 				{
 					bval, err := jr.ReadBytes(2097152)
@@ -253,7 +253,7 @@ func (t *BlobModel) UnmarshalDagJSON(r io.Reader) (err error) {
 				}
 
 				// t.Size (uint64) (uint64)
-			case "Size":
+			case "size":
 				{
 
 					nval, err := jr.ReadNumberAsUint64()
@@ -297,19 +297,21 @@ func (t *AllocateOKModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Address (datamodel.BlobAddressModel) (struct)
-	if len("Address") > 8192 {
-		return fmt.Errorf("String in field \"Address\" was too long")
+	if t.Address != nil {
+		if len("address") > 8192 {
+			return fmt.Errorf("String in field \"address\" was too long")
+		}
+		if err := jw.WriteString(string("address")); err != nil {
+			return fmt.Errorf("\"address\": %w", err)
+		}
+		if err := jw.WriteObjectColon(); err != nil {
+			return err
+		}
+		if err := t.Address.MarshalDagJSON(jw); err != nil {
+			return fmt.Errorf("t.Address: %w", err)
+		}
+		written++
 	}
-	if err := jw.WriteString(string("Address")); err != nil {
-		return fmt.Errorf("\"Address\": %w", err)
-	}
-	if err := jw.WriteObjectColon(); err != nil {
-		return err
-	}
-	if err := t.Address.MarshalDagJSON(jw); err != nil {
-		return fmt.Errorf("t.Address: %w", err)
-	}
-	written++
 	if written > 0 {
 		if err := jw.WriteComma(); err != nil {
 			return err
@@ -317,11 +319,11 @@ func (t *AllocateOKModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Size (uint64) (uint64)
-	if len("Size") > 8192 {
-		return fmt.Errorf("String in field \"Size\" was too long")
+	if len("size") > 8192 {
+		return fmt.Errorf("String in field \"size\" was too long")
 	}
-	if err := jw.WriteString(string("Size")); err != nil {
-		return fmt.Errorf("\"Size\": %w", err)
+	if err := jw.WriteString(string("size")); err != nil {
+		return fmt.Errorf("\"size\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -372,7 +374,7 @@ func (t *AllocateOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Address (datamodel.BlobAddressModel) (struct)
-			case "Address":
+			case "address":
 
 				{
 					null, err := jr.PeekNull()
@@ -392,7 +394,7 @@ func (t *AllocateOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
 				}
 
 				// t.Size (uint64) (uint64)
-			case "Size":
+			case "size":
 				{
 
 					nval, err := jr.ReadNumberAsUint64()
@@ -436,11 +438,11 @@ func (t *BlobAddressModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Expires (capabilities.CborTime) (struct)
-	if len("Expires") > 8192 {
-		return fmt.Errorf("String in field \"Expires\" was too long")
+	if len("expires") > 8192 {
+		return fmt.Errorf("String in field \"expires\" was too long")
 	}
-	if err := jw.WriteString(string("Expires")); err != nil {
-		return fmt.Errorf("\"Expires\": %w", err)
+	if err := jw.WriteString(string("expires")); err != nil {
+		return fmt.Errorf("\"expires\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -456,11 +458,11 @@ func (t *BlobAddressModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Headers (map[string]string) (map)
-	if len("Headers") > 8192 {
-		return fmt.Errorf("String in field \"Headers\" was too long")
+	if len("headers") > 8192 {
+		return fmt.Errorf("String in field \"headers\" was too long")
 	}
-	if err := jw.WriteString(string("Headers")); err != nil {
-		return fmt.Errorf("\"Headers\": %w", err)
+	if err := jw.WriteString(string("headers")); err != nil {
+		return fmt.Errorf("\"headers\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -516,11 +518,11 @@ func (t *BlobAddressModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.URL (capabilities.CborURL) (struct)
-	if len("URL") > 8192 {
-		return fmt.Errorf("String in field \"URL\" was too long")
+	if len("url") > 8192 {
+		return fmt.Errorf("String in field \"url\" was too long")
 	}
-	if err := jw.WriteString(string("URL")); err != nil {
-		return fmt.Errorf("\"URL\": %w", err)
+	if err := jw.WriteString(string("url")); err != nil {
+		return fmt.Errorf("\"url\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -569,14 +571,14 @@ func (t *BlobAddressModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Expires (capabilities.CborTime) (struct)
-			case "Expires":
+			case "expires":
 
 				if err := t.Expires.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Expires: %w", err)
 				}
 
 				// t.Headers (map[string]string) (map)
-			case "Headers":
+			case "headers":
 				if err := jr.ReadObjectOpen(); err != nil {
 					return fmt.Errorf("t.Headers: %w", err)
 				}
@@ -630,7 +632,7 @@ func (t *BlobAddressModel) UnmarshalDagJSON(r io.Reader) (err error) {
 				}
 
 				// t.URL (capabilities.CborURL) (struct)
-			case "URL":
+			case "url":
 
 				if err := t.URL.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.URL: %w", err)
@@ -669,18 +671,18 @@ func (t *AcceptArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 	written := 0
 
-	// t.Blob (datamodel.BlobModel) (struct)
-	if len("Blob") > 8192 {
-		return fmt.Errorf("String in field \"Blob\" was too long")
+	// t.Put (promise.AwaitOK) (struct)
+	if len("_put") > 8192 {
+		return fmt.Errorf("String in field \"_put\" was too long")
 	}
-	if err := jw.WriteString(string("Blob")); err != nil {
-		return fmt.Errorf("\"Blob\": %w", err)
+	if err := jw.WriteString(string("_put")); err != nil {
+		return fmt.Errorf("\"_put\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
 	}
-	if err := t.Blob.MarshalDagJSON(jw); err != nil {
-		return fmt.Errorf("t.Blob: %w", err)
+	if err := t.Put.MarshalDagJSON(jw); err != nil {
+		return fmt.Errorf("t.Put: %w", err)
 	}
 	written++
 	if written > 0 {
@@ -689,18 +691,18 @@ func (t *AcceptArgumentsModel) MarshalDagJSON(w io.Writer) error {
 		}
 	}
 
-	// t.Put (promise.AwaitOK) (struct)
-	if len("Put") > 8192 {
-		return fmt.Errorf("String in field \"Put\" was too long")
+	// t.Blob (datamodel.BlobModel) (struct)
+	if len("blob") > 8192 {
+		return fmt.Errorf("String in field \"blob\" was too long")
 	}
-	if err := jw.WriteString(string("Put")); err != nil {
-		return fmt.Errorf("\"Put\": %w", err)
+	if err := jw.WriteString(string("blob")); err != nil {
+		return fmt.Errorf("\"blob\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
 	}
-	if err := t.Put.MarshalDagJSON(jw); err != nil {
-		return fmt.Errorf("t.Put: %w", err)
+	if err := t.Blob.MarshalDagJSON(jw); err != nil {
+		return fmt.Errorf("t.Blob: %w", err)
 	}
 	written++
 	if err := jw.WriteObjectClose(); err != nil {
@@ -742,18 +744,18 @@ func (t *AcceptArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			}
 			switch name {
 
-			// t.Blob (datamodel.BlobModel) (struct)
-			case "Blob":
-
-				if err := t.Blob.UnmarshalDagJSON(jr); err != nil {
-					return fmt.Errorf("unmarshaling t.Blob: %w", err)
-				}
-
-				// t.Put (promise.AwaitOK) (struct)
-			case "Put":
+			// t.Put (promise.AwaitOK) (struct)
+			case "_put":
 
 				if err := t.Put.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Put: %w", err)
+				}
+
+				// t.Blob (datamodel.BlobModel) (struct)
+			case "blob":
+
+				if err := t.Blob.UnmarshalDagJSON(jr); err != nil {
+					return fmt.Errorf("unmarshaling t.Blob: %w", err)
 				}
 
 			default:
@@ -789,11 +791,11 @@ func (t *AcceptOKModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Site (cid.Cid) (struct)
-	if len("Site") > 8192 {
-		return fmt.Errorf("String in field \"Site\" was too long")
+	if len("site") > 8192 {
+		return fmt.Errorf("String in field \"site\" was too long")
 	}
-	if err := jw.WriteString(string("Site")); err != nil {
-		return fmt.Errorf("\"Site\": %w", err)
+	if err := jw.WriteString(string("site")); err != nil {
+		return fmt.Errorf("\"site\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -843,7 +845,7 @@ func (t *AcceptOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Site (cid.Cid) (struct)
-			case "Site":
+			case "site":
 				{
 
 					c, err := jr.ReadCid()
@@ -886,11 +888,11 @@ func (t *AddArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Blob (datamodel.BlobModel) (struct)
-	if len("Blob") > 8192 {
-		return fmt.Errorf("String in field \"Blob\" was too long")
+	if len("blob") > 8192 {
+		return fmt.Errorf("String in field \"blob\" was too long")
 	}
-	if err := jw.WriteString(string("Blob")); err != nil {
-		return fmt.Errorf("\"Blob\": %w", err)
+	if err := jw.WriteString(string("blob")); err != nil {
+		return fmt.Errorf("\"blob\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -938,7 +940,7 @@ func (t *AddArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Blob (datamodel.BlobModel) (struct)
-			case "Blob":
+			case "blob":
 
 				if err := t.Blob.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Blob: %w", err)
@@ -977,11 +979,11 @@ func (t *AddOKModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Site (promise.AwaitOK) (struct)
-	if len("Site") > 8192 {
-		return fmt.Errorf("String in field \"Site\" was too long")
+	if len("site") > 8192 {
+		return fmt.Errorf("String in field \"site\" was too long")
 	}
-	if err := jw.WriteString(string("Site")); err != nil {
-		return fmt.Errorf("\"Site\": %w", err)
+	if err := jw.WriteString(string("site")); err != nil {
+		return fmt.Errorf("\"site\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -1029,7 +1031,7 @@ func (t *AddOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Site (promise.AwaitOK) (struct)
-			case "Site":
+			case "site":
 
 				if err := t.Site.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Site: %w", err)
@@ -1069,11 +1071,11 @@ func (t *ReplicateArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Blob (datamodel.BlobModel) (struct)
-	if len("Blob") > 8192 {
-		return fmt.Errorf("String in field \"Blob\" was too long")
+	if len("blob") > 8192 {
+		return fmt.Errorf("String in field \"blob\" was too long")
 	}
-	if err := jw.WriteString(string("Blob")); err != nil {
-		return fmt.Errorf("\"Blob\": %w", err)
+	if err := jw.WriteString(string("blob")); err != nil {
+		return fmt.Errorf("\"blob\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -1089,11 +1091,11 @@ func (t *ReplicateArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Replicas (uint64) (uint64)
-	if len("Replicas") > 8192 {
-		return fmt.Errorf("String in field \"Replicas\" was too long")
+	if len("replicas") > 8192 {
+		return fmt.Errorf("String in field \"replicas\" was too long")
 	}
-	if err := jw.WriteString(string("Replicas")); err != nil {
-		return fmt.Errorf("\"Replicas\": %w", err)
+	if err := jw.WriteString(string("replicas")); err != nil {
+		return fmt.Errorf("\"replicas\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -1111,11 +1113,11 @@ func (t *ReplicateArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Site (cid.Cid) (struct)
-	if len("Site") > 8192 {
-		return fmt.Errorf("String in field \"Site\" was too long")
+	if len("site") > 8192 {
+		return fmt.Errorf("String in field \"site\" was too long")
 	}
-	if err := jw.WriteString(string("Site")); err != nil {
-		return fmt.Errorf("\"Site\": %w", err)
+	if err := jw.WriteString(string("site")); err != nil {
+		return fmt.Errorf("\"site\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -1166,14 +1168,14 @@ func (t *ReplicateArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Blob (datamodel.BlobModel) (struct)
-			case "Blob":
+			case "blob":
 
 				if err := t.Blob.UnmarshalDagJSON(jr); err != nil {
 					return fmt.Errorf("unmarshaling t.Blob: %w", err)
 				}
 
 				// t.Replicas (uint64) (uint64)
-			case "Replicas":
+			case "replicas":
 				{
 
 					nval, err := jr.ReadNumberAsUint64()
@@ -1185,7 +1187,7 @@ func (t *ReplicateArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 				}
 
 				// t.Site (cid.Cid) (struct)
-			case "Site":
+			case "site":
 				{
 
 					c, err := jr.ReadCid()
@@ -1228,11 +1230,11 @@ func (t *ReplicateOKModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Site ([]promise.AwaitOK) (slice)
-	if len("Site") > 8192 {
-		return fmt.Errorf("String in field \"Site\" was too long")
+	if len("site") > 8192 {
+		return fmt.Errorf("String in field \"site\" was too long")
 	}
-	if err := jw.WriteString(string("Site")); err != nil {
-		return fmt.Errorf("\"Site\": %w", err)
+	if err := jw.WriteString(string("site")); err != nil {
+		return fmt.Errorf("\"site\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -1298,7 +1300,7 @@ func (t *ReplicateOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Site ([]promise.AwaitOK) (slice)
-			case "Site":
+			case "site":
 				{
 
 					if err := jr.ReadArrayOpen(); err != nil {

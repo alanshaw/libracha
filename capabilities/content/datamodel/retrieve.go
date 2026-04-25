@@ -5,17 +5,17 @@ import (
 )
 
 type BlobModel struct {
-	Digest multihash.Multihash `cborgen:"digest"`
+	Digest multihash.Multihash `cborgen:"digest" dagjsongen:"digest"`
 }
 
 type RangeModel struct {
-	Start uint64 `cborgen:"start"`
-	End   uint64 `cborgen:"end"`
+	Start uint64 `cborgen:"start" dagjsongen:"start"`
+	End   uint64 `cborgen:"end" dagjsongen:"end"`
 }
 
 type RetrieveArgumentsModel struct {
-	Blob  BlobModel  `cborgen:"blob"`
-	Range RangeModel `cborgen:"range"`
+	Blob  BlobModel  `cborgen:"blob" dagjsongen:"blob"`
+	Range RangeModel `cborgen:"range" dagjsongen:"range"`
 }
 
 type RetrieveOKModel struct{}

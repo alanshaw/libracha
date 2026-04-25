@@ -11,5 +11,5 @@ type ProviderModel struct {
 }
 
 type ListOKModel struct {
-	Providers []ProviderModel `cborgen:"providers"`
+	Providers []ProviderModel `cborgen:"providers" dagjsongen:"list"`
 }

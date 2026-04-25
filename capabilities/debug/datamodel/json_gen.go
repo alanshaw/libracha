@@ -29,11 +29,11 @@ func (t *EchoArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	}
 
 	// t.Message (string) (string)
-	if len("Message") > 8192 {
-		return fmt.Errorf("String in field \"Message\" was too long")
+	if len("message") > 8192 {
+		return fmt.Errorf("String in field \"message\" was too long")
 	}
-	if err := jw.WriteString(string("Message")); err != nil {
-		return fmt.Errorf("\"Message\": %w", err)
+	if err := jw.WriteString(string("message")); err != nil {
+		return fmt.Errorf("\"message\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
@@ -84,7 +84,7 @@ func (t *EchoArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			switch name {
 
 			// t.Message (string) (string)
-			case "Message":
+			case "message":
 				{
 					sval, err := jr.ReadString(8192)
 					if err != nil {

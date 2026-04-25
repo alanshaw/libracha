@@ -6,8 +6,8 @@ import (
 )
 
 type PutArgumentsModel struct {
-	Body blob.Blob `cborgen:"body"`
+	Body blob.Blob `cborgen:"body" dagjsongen:"body"`
 	// Destination is the promise that resolves to the upload destination
 	// where the blob should be PUT to. It is the result of a /blob/allocate task.
-	Destination promise.AwaitOK `cborgen:"destination"`
+	Destination promise.AwaitOK `cborgen:"destination" dagjsongen:"destination"`
 }
