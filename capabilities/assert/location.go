@@ -7,6 +7,7 @@ import (
 
 type (
 	LocationArguments = datamodel.LocationArgumentsModel
+	LocationOK        = datamodel.LocationOKModel
 	Range             = datamodel.RangeModel
 )
 

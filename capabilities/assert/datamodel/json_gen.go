@@ -152,6 +152,75 @@ func (t *IndexArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 
 	return nil
 }
+func (t *IndexOKModel) MarshalDagJSON(w io.Writer) error {
+	jw := jsg.NewDagJsonWriter(w)
+	if t == nil {
+		err := jw.WriteNull()
+		return err
+	}
+	if err := jw.WriteObjectOpen(); err != nil {
+		return err
+	}
+	if err := jw.WriteObjectClose(); err != nil {
+		return err
+	}
+	return nil
+}
+func (t *IndexOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
+	*t = IndexOKModel{}
+
+	jr := jsg.NewDagJsonReader(r)
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+	if err := jr.ReadObjectOpen(); err != nil {
+		return fmt.Errorf("IndexOKModel: %w", err)
+	}
+	close, err := jr.PeekObjectClose()
+	if err != nil {
+		return fmt.Errorf("IndexOKModel: %w", err)
+	}
+	if close {
+		if err := jr.ReadObjectClose(); err != nil {
+			return fmt.Errorf("IndexOKModel: %w", err)
+		}
+	} else {
+		for i := uint64(0); i < 8192; i++ {
+			name, err := jr.ReadString(8192)
+			if err != nil {
+				if errors.Is(err, jsg.ErrLimitExceeded) {
+					return fmt.Errorf("IndexOKModel: string too large")
+				}
+				return fmt.Errorf("IndexOKModel: %w", err)
+			}
+			if err := jr.ReadObjectColon(); err != nil {
+				return fmt.Errorf("IndexOKModel: %w", err)
+			}
+			switch name {
+			default:
+				// Field doesn't exist on this type, so ignore it
+				if err := jr.DiscardType(); err != nil {
+					return fmt.Errorf("IndexOKModel: ignoring field %s: %w", name, err)
+				}
+			}
+
+			close, err := jr.ReadObjectCloseOrComma()
+			if err != nil {
+				return fmt.Errorf("IndexOKModel: %w", err)
+			}
+			if close {
+				break
+			}
+			if i == 8192-1 {
+				return fmt.Errorf("IndexOKModel: map too large")
+			}
+		}
+	}
+
+	return nil
+}
 func (t *LocationArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	jw := jsg.NewDagJsonWriter(w)
 	if t == nil {
@@ -404,6 +473,75 @@ func (t *LocationArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			}
 			if i == 8192-1 {
 				return fmt.Errorf("LocationArgumentsModel: map too large")
+			}
+		}
+	}
+
+	return nil
+}
+func (t *LocationOKModel) MarshalDagJSON(w io.Writer) error {
+	jw := jsg.NewDagJsonWriter(w)
+	if t == nil {
+		err := jw.WriteNull()
+		return err
+	}
+	if err := jw.WriteObjectOpen(); err != nil {
+		return err
+	}
+	if err := jw.WriteObjectClose(); err != nil {
+		return err
+	}
+	return nil
+}
+func (t *LocationOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
+	*t = LocationOKModel{}
+
+	jr := jsg.NewDagJsonReader(r)
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+	if err := jr.ReadObjectOpen(); err != nil {
+		return fmt.Errorf("LocationOKModel: %w", err)
+	}
+	close, err := jr.PeekObjectClose()
+	if err != nil {
+		return fmt.Errorf("LocationOKModel: %w", err)
+	}
+	if close {
+		if err := jr.ReadObjectClose(); err != nil {
+			return fmt.Errorf("LocationOKModel: %w", err)
+		}
+	} else {
+		for i := uint64(0); i < 8192; i++ {
+			name, err := jr.ReadString(8192)
+			if err != nil {
+				if errors.Is(err, jsg.ErrLimitExceeded) {
+					return fmt.Errorf("LocationOKModel: string too large")
+				}
+				return fmt.Errorf("LocationOKModel: %w", err)
+			}
+			if err := jr.ReadObjectColon(); err != nil {
+				return fmt.Errorf("LocationOKModel: %w", err)
+			}
+			switch name {
+			default:
+				// Field doesn't exist on this type, so ignore it
+				if err := jr.DiscardType(); err != nil {
+					return fmt.Errorf("LocationOKModel: ignoring field %s: %w", name, err)
+				}
+			}
+
+			close, err := jr.ReadObjectCloseOrComma()
+			if err != nil {
+				return fmt.Errorf("LocationOKModel: %w", err)
+			}
+			if close {
+				break
+			}
+			if i == 8192-1 {
+				return fmt.Errorf("LocationOKModel: map too large")
 			}
 		}
 	}

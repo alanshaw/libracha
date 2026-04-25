@@ -9,7 +9,9 @@ import (
 func main() {
 	models := []any{
 		datamodel.IndexArgumentsModel{},
+		datamodel.IndexOKModel{},
 		datamodel.LocationArgumentsModel{},
+		datamodel.LocationOKModel{},
 		datamodel.RangeModel{},
 	}
 
