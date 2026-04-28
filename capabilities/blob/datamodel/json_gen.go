@@ -1059,6 +1059,180 @@ func (t *AddOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
 
 	return nil
 }
+func (t *RemoveArgumentsModel) MarshalDagJSON(w io.Writer) error {
+	jw := jsg.NewDagJsonWriter(w)
+	if t == nil {
+		err := jw.WriteNull()
+		return err
+	}
+	if err := jw.WriteObjectOpen(); err != nil {
+		return err
+	}
+
+	// t.Digest (multihash.Multihash) (slice)
+	if len("digest") > 8192 {
+		return fmt.Errorf("String in field \"digest\" was too long")
+	}
+	if err := jw.WriteString(string("digest")); err != nil {
+		return fmt.Errorf("\"digest\": %w", err)
+	}
+	if err := jw.WriteObjectColon(); err != nil {
+		return err
+	}
+	if len(t.Digest) > 2097152 {
+		return fmt.Errorf("Byte array in field t.Digest was too long")
+	}
+
+	if err := jw.WriteBytes(t.Digest); err != nil {
+		return fmt.Errorf("t.Digest: %w", err)
+	}
+
+	if err := jw.WriteObjectClose(); err != nil {
+		return err
+	}
+	return nil
+}
+func (t *RemoveArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
+	*t = RemoveArgumentsModel{}
+
+	jr := jsg.NewDagJsonReader(r)
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+	if err := jr.ReadObjectOpen(); err != nil {
+		return fmt.Errorf("RemoveArgumentsModel: %w", err)
+	}
+	close, err := jr.PeekObjectClose()
+	if err != nil {
+		return fmt.Errorf("RemoveArgumentsModel: %w", err)
+	}
+	if close {
+		if err := jr.ReadObjectClose(); err != nil {
+			return fmt.Errorf("RemoveArgumentsModel: %w", err)
+		}
+	} else {
+		for i := uint64(0); i < 8192; i++ {
+			name, err := jr.ReadString(8192)
+			if err != nil {
+				if errors.Is(err, jsg.ErrLimitExceeded) {
+					return fmt.Errorf("RemoveArgumentsModel: string too large")
+				}
+				return fmt.Errorf("RemoveArgumentsModel: %w", err)
+			}
+			if err := jr.ReadObjectColon(); err != nil {
+				return fmt.Errorf("RemoveArgumentsModel: %w", err)
+			}
+			switch name {
+
+			// t.Digest (multihash.Multihash) (slice)
+			case "digest":
+
+				{
+					bval, err := jr.ReadBytes(2097152)
+					if err != nil {
+						if errors.Is(err, jsg.ErrLimitExceeded) {
+							return fmt.Errorf("t.Digest: byte array too large")
+						}
+						return fmt.Errorf("t.Digest: %w", err)
+					}
+					if len(bval) > 0 {
+						t.Digest = []uint8(bval)
+					}
+				}
+
+			default:
+				// Field doesn't exist on this type, so ignore it
+				if err := jr.DiscardType(); err != nil {
+					return fmt.Errorf("RemoveArgumentsModel: ignoring field %s: %w", name, err)
+				}
+			}
+
+			close, err := jr.ReadObjectCloseOrComma()
+			if err != nil {
+				return fmt.Errorf("RemoveArgumentsModel: %w", err)
+			}
+			if close {
+				break
+			}
+			if i == 8192-1 {
+				return fmt.Errorf("RemoveArgumentsModel: map too large")
+			}
+		}
+	}
+
+	return nil
+}
+func (t *RemoveOKModel) MarshalDagJSON(w io.Writer) error {
+	jw := jsg.NewDagJsonWriter(w)
+	if t == nil {
+		err := jw.WriteNull()
+		return err
+	}
+	if err := jw.WriteObjectOpen(); err != nil {
+		return err
+	}
+	if err := jw.WriteObjectClose(); err != nil {
+		return err
+	}
+	return nil
+}
+func (t *RemoveOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
+	*t = RemoveOKModel{}
+
+	jr := jsg.NewDagJsonReader(r)
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+	if err := jr.ReadObjectOpen(); err != nil {
+		return fmt.Errorf("RemoveOKModel: %w", err)
+	}
+	close, err := jr.PeekObjectClose()
+	if err != nil {
+		return fmt.Errorf("RemoveOKModel: %w", err)
+	}
+	if close {
+		if err := jr.ReadObjectClose(); err != nil {
+			return fmt.Errorf("RemoveOKModel: %w", err)
+		}
+	} else {
+		for i := uint64(0); i < 8192; i++ {
+			name, err := jr.ReadString(8192)
+			if err != nil {
+				if errors.Is(err, jsg.ErrLimitExceeded) {
+					return fmt.Errorf("RemoveOKModel: string too large")
+				}
+				return fmt.Errorf("RemoveOKModel: %w", err)
+			}
+			if err := jr.ReadObjectColon(); err != nil {
+				return fmt.Errorf("RemoveOKModel: %w", err)
+			}
+			switch name {
+			default:
+				// Field doesn't exist on this type, so ignore it
+				if err := jr.DiscardType(); err != nil {
+					return fmt.Errorf("RemoveOKModel: ignoring field %s: %w", name, err)
+				}
+			}
+
+			close, err := jr.ReadObjectCloseOrComma()
+			if err != nil {
+				return fmt.Errorf("RemoveOKModel: %w", err)
+			}
+			if close {
+				break
+			}
+			if i == 8192-1 {
+				return fmt.Errorf("RemoveOKModel: map too large")
+			}
+		}
+	}
+
+	return nil
+}
 func (t *ReplicateArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	jw := jsg.NewDagJsonWriter(w)
 	if t == nil {

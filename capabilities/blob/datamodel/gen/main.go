@@ -16,6 +16,8 @@ func main() {
 		bdm.AcceptOKModel{},
 		bdm.AddArgumentsModel{},
 		bdm.AddOKModel{},
+		bdm.RemoveArgumentsModel{},
+		bdm.RemoveOKModel{},
 		bdm.ReplicateArgumentsModel{},
 		bdm.ReplicateOKModel{},
 	}
