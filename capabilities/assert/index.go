@@ -1,13 +1,14 @@
 package assert
 
 import (
-	"github.com/alanshaw/libracha/capabilities/assert/datamodel"
+	adm "github.com/alanshaw/libracha/capabilities/assert/datamodel"
+	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
 	"github.com/alanshaw/ucantone/validator/bindcap"
 )
 
 type (
-	IndexArguments = datamodel.IndexArgumentsModel
-	IndexOK        = datamodel.IndexOKModel
+	IndexArguments = adm.IndexArgumentsModel
+	IndexOK        = cdm.UnitModel
 )
 
 const IndexCommand = "/assert/index"

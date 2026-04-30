@@ -9,9 +9,7 @@ import (
 func main() {
 	models := []any{
 		dm.AddArgumentsModel{},
-		dm.AddOKModel{},
 		dm.RemoveArgumentsModel{},
-		dm.RemoveOKModel{},
 	}
 	if err := cbg.WriteMapEncodersToFile("../cbor_gen.go", "datamodel", models...); err != nil {
 		panic(err)

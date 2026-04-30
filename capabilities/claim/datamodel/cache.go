@@ -12,5 +12,3 @@ type CacheArgumentsModel struct {
 type ProviderModel struct {
 	Addresses [][]byte `cborgen:"addresses" dagjsongen:"addresses"`
 }
-
-type CacheOKModel struct{}

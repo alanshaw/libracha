@@ -2,12 +2,13 @@ package claim
 
 import (
 	"github.com/alanshaw/libracha/capabilities/claim/datamodel"
+	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
 	"github.com/alanshaw/ucantone/validator/bindcap"
 )
 
 type (
 	CacheArguments = datamodel.CacheArgumentsModel
-	CacheOK        = datamodel.CacheOKModel
+	CacheOK        = cdm.UnitModel
 	Provider       = datamodel.ProviderModel
 )
 

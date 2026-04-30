@@ -9,5 +9,3 @@ type AddArgumentsModel struct {
 	Shards []cid.Cid `cborgen:"shards" dagjsongen:"shards"`
 	Index  cid.Cid   `cborgen:"index" dagjsongen:"index"`
 }
-
-type AddOKModel struct{}

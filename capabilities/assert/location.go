@@ -1,14 +1,15 @@
 package assert
 
 import (
-	"github.com/alanshaw/libracha/capabilities/assert/datamodel"
+	adm "github.com/alanshaw/libracha/capabilities/assert/datamodel"
+	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
 	"github.com/alanshaw/ucantone/validator/bindcap"
 )
 
 type (
-	LocationArguments = datamodel.LocationArgumentsModel
-	LocationOK        = datamodel.LocationOKModel
-	Range             = datamodel.RangeModel
+	LocationArguments = adm.LocationArgumentsModel
+	LocationOK        = cdm.UnitModel
+	Range             = adm.RangeModel
 )
 
 const LocationCommand = "/assert/location"

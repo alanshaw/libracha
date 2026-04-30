@@ -9,7 +9,6 @@ import (
 func main() {
 	models := []any{
 		dm.CacheArgumentsModel{},
-		dm.CacheOKModel{},
 		dm.ProviderModel{},
 	}
 	if err := cbg.WriteMapEncodersToFile("../cbor_gen.go", "datamodel", models...); err != nil {
