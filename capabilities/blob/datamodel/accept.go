@@ -5,6 +5,7 @@ import (
 	"github.com/fil-forge/ucantone/ucan/promise"
 )
 
+// +libracha:map-encoders
 type AcceptArgumentsModel struct {
 	Blob BlobModel       `cborgen:"blob" dagjsongen:"blob"`
 	Put  promise.AwaitOK `cborgen:"_put" dagjsongen:"_put"`
