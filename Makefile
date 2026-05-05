@@ -5,6 +5,7 @@ gen:
 	cd ./capabilities/content/datamodel/gen && go run ./main.go
 	cd ./capabilities/datamodel/gen && go run ./main.go
 	cd ./capabilities/debug/datamodel/gen && go run ./main.go
+	cd ./capabilities/ucan/attest/datamodel/gen && go run ./main.go
 	cd ./capabilities/ucan/datamodel/gen && go run ./main.go
 	cd ./capabilities/upload/datamodel/gen && go run ./main.go
 
