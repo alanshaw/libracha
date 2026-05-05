@@ -6,11 +6,11 @@ import (
 	"iter"
 	"testing"
 
-	"github.com/alanshaw/libracha/testutil"
-	ucanlib "github.com/alanshaw/libracha/ucan"
-	"github.com/alanshaw/ucantone/ucan"
-	"github.com/alanshaw/ucantone/ucan/command"
-	"github.com/alanshaw/ucantone/ucan/delegation"
+	"github.com/fil-forge/libforge/testutil"
+	ucanlib "github.com/fil-forge/libforge/ucan"
+	"github.com/fil-forge/ucantone/ucan"
+	"github.com/fil-forge/ucantone/ucan/command"
+	"github.com/fil-forge/ucantone/ucan/delegation"
 	"github.com/stretchr/testify/require"
 )
 

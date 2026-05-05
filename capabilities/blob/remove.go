@@ -1,9 +1,9 @@
 package blob
 
 import (
-	bdm "github.com/alanshaw/libracha/capabilities/blob/datamodel"
-	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
-	"github.com/alanshaw/ucantone/validator/bindcap"
+	bdm "github.com/fil-forge/libforge/capabilities/blob/datamodel"
+	cdm "github.com/fil-forge/libforge/capabilities/datamodel"
+	"github.com/fil-forge/ucantone/validator/bindcap"
 )
 
 const RemoveCommand = "/blob/remove"

@@ -1,5 +1,5 @@
 package capabilities
 
-import "github.com/alanshaw/libracha/capabilities/datamodel"
+import "github.com/fil-forge/libforge/capabilities/datamodel"
 
 type Unit = datamodel.UnitModel

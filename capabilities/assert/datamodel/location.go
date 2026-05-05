@@ -1,8 +1,8 @@
 package datamodel
 
 import (
-	"github.com/alanshaw/libracha/capabilities"
-	"github.com/alanshaw/ucantone/did"
+	"github.com/fil-forge/libforge/capabilities"
+	"github.com/fil-forge/ucantone/did"
 	"github.com/multiformats/go-multihash"
 )
 

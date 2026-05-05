@@ -1,8 +1,8 @@
 package datamodel
 
 import (
-	"github.com/alanshaw/libracha/capabilities/blob"
-	"github.com/alanshaw/ucantone/ucan/promise"
+	"github.com/fil-forge/libforge/capabilities/blob"
+	"github.com/fil-forge/ucantone/ucan/promise"
 )
 
 type PutArgumentsModel struct {

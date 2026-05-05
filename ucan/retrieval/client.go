@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/alanshaw/ucantone/client"
-	"github.com/alanshaw/ucantone/execution"
+	"github.com/fil-forge/ucantone/client"
+	"github.com/fil-forge/ucantone/execution"
 )
 
 type HTTPHeaderClient struct {

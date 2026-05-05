@@ -1,8 +1,8 @@
 package blob
 
 import (
-	bdm "github.com/alanshaw/libracha/capabilities/blob/datamodel"
-	"github.com/alanshaw/ucantone/validator/bindcap"
+	bdm "github.com/fil-forge/libforge/capabilities/blob/datamodel"
+	"github.com/fil-forge/ucantone/validator/bindcap"
 )
 
 type (

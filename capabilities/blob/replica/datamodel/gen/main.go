@@ -1,7 +1,7 @@
 package main
 
 import (
-	rdm "github.com/alanshaw/libracha/capabilities/blob/replica/datamodel"
+	rdm "github.com/fil-forge/libforge/capabilities/blob/replica/datamodel"
 	cbg "github.com/whyrusleeping/cbor-gen"
 )
 

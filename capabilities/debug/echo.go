@@ -1,10 +1,10 @@
 package debug
 
 import (
-	ddm "github.com/alanshaw/libracha/capabilities/debug/datamodel"
-	"github.com/alanshaw/ucantone/ucan/delegation/policy"
-	"github.com/alanshaw/ucantone/validator/bindcap"
-	"github.com/alanshaw/ucantone/validator/capability"
+	ddm "github.com/fil-forge/libforge/capabilities/debug/datamodel"
+	"github.com/fil-forge/ucantone/ucan/delegation/policy"
+	"github.com/fil-forge/ucantone/validator/bindcap"
+	"github.com/fil-forge/ucantone/validator/capability"
 )
 
 const EchoCommand = "/debug/echo"

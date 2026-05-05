@@ -2,7 +2,7 @@ package main
 
 import (
 	jsg "github.com/alanshaw/dag-json-gen"
-	dm "github.com/alanshaw/libracha/capabilities/upload/datamodel"
+	dm "github.com/fil-forge/libforge/capabilities/upload/datamodel"
 	cbg "github.com/whyrusleeping/cbor-gen"
 )
 

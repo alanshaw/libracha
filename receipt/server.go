@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/alanshaw/ucantone/ipld/codec/dagcbor"
-	"github.com/alanshaw/ucantone/ucan"
-	"github.com/alanshaw/ucantone/ucan/container"
+	"github.com/fil-forge/ucantone/ipld/codec/dagcbor"
+	"github.com/fil-forge/ucantone/ucan"
+	"github.com/fil-forge/ucantone/ucan/container"
 	"github.com/ipfs/go-cid"
 	logging "github.com/ipfs/go-log/v2"
 )

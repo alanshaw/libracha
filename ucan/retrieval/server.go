@@ -1,8 +1,8 @@
 package retrieval
 
 import (
-	"github.com/alanshaw/ucantone/principal"
-	"github.com/alanshaw/ucantone/server"
+	"github.com/fil-forge/ucantone/principal"
+	"github.com/fil-forge/ucantone/server"
 )
 
 func NewServer(id principal.Signer, options ...server.HTTPOption) *server.HTTPServer {

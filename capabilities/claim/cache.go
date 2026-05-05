@@ -1,9 +1,9 @@
 package claim
 
 import (
-	"github.com/alanshaw/libracha/capabilities/claim/datamodel"
-	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
-	"github.com/alanshaw/ucantone/validator/bindcap"
+	"github.com/fil-forge/libforge/capabilities/claim/datamodel"
+	cdm "github.com/fil-forge/libforge/capabilities/datamodel"
+	"github.com/fil-forge/ucantone/validator/bindcap"
 )
 
 type (

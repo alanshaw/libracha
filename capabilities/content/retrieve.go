@@ -1,9 +1,9 @@
 package content
 
 import (
-	dm "github.com/alanshaw/libracha/capabilities/content/datamodel"
-	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
-	"github.com/alanshaw/ucantone/validator/bindcap"
+	dm "github.com/fil-forge/libforge/capabilities/content/datamodel"
+	cdm "github.com/fil-forge/libforge/capabilities/datamodel"
+	"github.com/fil-forge/ucantone/validator/bindcap"
 )
 
 const RetrieveCommand = "/content/retrieve"

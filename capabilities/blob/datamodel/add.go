@@ -1,7 +1,7 @@
 package datamodel
 
 import (
-	"github.com/alanshaw/ucantone/ucan/promise"
+	"github.com/fil-forge/ucantone/ucan/promise"
 	"github.com/multiformats/go-multihash"
 )
 

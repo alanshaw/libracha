@@ -1,9 +1,9 @@
 package http
 
 import (
-	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
-	hdm "github.com/alanshaw/libracha/capabilities/http/datamodel"
-	"github.com/alanshaw/ucantone/validator/bindcap"
+	cdm "github.com/fil-forge/libforge/capabilities/datamodel"
+	hdm "github.com/fil-forge/libforge/capabilities/http/datamodel"
+	"github.com/fil-forge/ucantone/validator/bindcap"
 )
 
 const PutCommand = "/http/put"

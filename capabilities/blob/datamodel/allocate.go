@@ -1,8 +1,8 @@
 package datamodel
 
 import (
-	"github.com/alanshaw/libracha/capabilities"
-	"github.com/alanshaw/ucantone/ucan"
+	"github.com/fil-forge/libforge/capabilities"
+	"github.com/fil-forge/ucantone/ucan"
 )
 
 type AllocateArgumentsModel struct {

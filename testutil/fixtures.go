@@ -3,9 +3,9 @@ package testutil
 import (
 	"net/url"
 
-	"github.com/alanshaw/ucantone/did"
-	"github.com/alanshaw/ucantone/principal/ed25519"
-	"github.com/alanshaw/ucantone/principal/signer"
+	"github.com/fil-forge/ucantone/did"
+	"github.com/fil-forge/ucantone/principal/ed25519"
+	"github.com/fil-forge/ucantone/principal/signer"
 )
 
 // did:key:z6Mkk89bC3JrVqKie71YEcc5M1SMVxuCgNx6zLZ8SYJsxALi

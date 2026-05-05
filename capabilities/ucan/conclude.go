@@ -1,9 +1,9 @@
 package ucan
 
 import (
-	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
-	udm "github.com/alanshaw/libracha/capabilities/ucan/datamodel"
-	"github.com/alanshaw/ucantone/validator/bindcap"
+	cdm "github.com/fil-forge/libforge/capabilities/datamodel"
+	udm "github.com/fil-forge/libforge/capabilities/ucan/datamodel"
+	"github.com/fil-forge/ucantone/validator/bindcap"
 )
 
 type (

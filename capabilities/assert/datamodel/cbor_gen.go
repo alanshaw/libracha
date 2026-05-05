@@ -8,7 +8,7 @@ import (
 	"math"
 	"sort"
 
-	capabilities "github.com/alanshaw/libracha/capabilities"
+	capabilities "github.com/fil-forge/libforge/capabilities"
 	cid "github.com/ipfs/go-cid"
 	cbg "github.com/whyrusleeping/cbor-gen"
 	xerrors "golang.org/x/xerrors"

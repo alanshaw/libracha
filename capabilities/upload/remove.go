@@ -1,9 +1,9 @@
 package upload
 
 import (
-	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
-	udm "github.com/alanshaw/libracha/capabilities/upload/datamodel"
-	"github.com/alanshaw/ucantone/validator/bindcap"
+	cdm "github.com/fil-forge/libforge/capabilities/datamodel"
+	udm "github.com/fil-forge/libforge/capabilities/upload/datamodel"
+	"github.com/fil-forge/ucantone/validator/bindcap"
 )
 
 const RemoveCommand = "/upload/remove"

@@ -8,7 +8,7 @@ import (
 	"math"
 	"sort"
 
-	promise "github.com/alanshaw/ucantone/ucan/promise"
+	promise "github.com/fil-forge/ucantone/ucan/promise"
 	cid "github.com/ipfs/go-cid"
 	cbg "github.com/whyrusleeping/cbor-gen"
 	xerrors "golang.org/x/xerrors"

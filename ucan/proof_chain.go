@@ -5,8 +5,8 @@ import (
 	"iter"
 	"slices"
 
-	"github.com/alanshaw/ucantone/ucan"
-	"github.com/alanshaw/ucantone/ucan/command"
+	"github.com/fil-forge/ucantone/ucan"
+	"github.com/fil-forge/ucantone/ucan/command"
 )
 
 type DelegationMatcher interface {

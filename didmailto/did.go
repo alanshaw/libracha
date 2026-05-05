@@ -6,8 +6,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/alanshaw/ucantone/did"
-	"github.com/alanshaw/ucantone/errors"
+	"github.com/fil-forge/ucantone/did"
+	"github.com/fil-forge/ucantone/errors"
 )
 
 const InvalidMailtoDIDErrorName = "InvalidMailtoDID"

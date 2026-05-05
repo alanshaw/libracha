@@ -1,11 +1,11 @@
 package replica
 
 import (
-	"github.com/alanshaw/libracha/capabilities/blob"
-	rdm "github.com/alanshaw/libracha/capabilities/blob/replica/datamodel"
-	"github.com/alanshaw/ucantone/ucan/delegation/policy"
-	"github.com/alanshaw/ucantone/validator/bindcap"
-	"github.com/alanshaw/ucantone/validator/capability"
+	"github.com/fil-forge/libforge/capabilities/blob"
+	rdm "github.com/fil-forge/libforge/capabilities/blob/replica/datamodel"
+	"github.com/fil-forge/ucantone/ucan/delegation/policy"
+	"github.com/fil-forge/ucantone/validator/bindcap"
+	"github.com/fil-forge/ucantone/validator/capability"
 )
 
 type (

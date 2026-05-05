@@ -1,9 +1,9 @@
 package assert
 
 import (
-	adm "github.com/alanshaw/libracha/capabilities/assert/datamodel"
-	cdm "github.com/alanshaw/libracha/capabilities/datamodel"
-	"github.com/alanshaw/ucantone/validator/bindcap"
+	adm "github.com/fil-forge/libforge/capabilities/assert/datamodel"
+	cdm "github.com/fil-forge/libforge/capabilities/datamodel"
+	"github.com/fil-forge/ucantone/validator/bindcap"
 )
 
 type (

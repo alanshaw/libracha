@@ -1,8 +1,8 @@
 package datamodel
 
 import (
-	"github.com/alanshaw/ucantone/ucan"
-	"github.com/alanshaw/ucantone/ucan/promise"
+	"github.com/fil-forge/ucantone/ucan"
+	"github.com/fil-forge/ucantone/ucan/promise"
 	"github.com/ipfs/go-cid"
 )
 

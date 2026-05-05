@@ -10,7 +10,7 @@ import (
 	"sort"
 
 	jsg "github.com/alanshaw/dag-json-gen"
-	capabilities "github.com/alanshaw/libracha/capabilities"
+	capabilities "github.com/fil-forge/libforge/capabilities"
 	cid "github.com/ipfs/go-cid"
 )
 

@@ -8,8 +8,8 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/alanshaw/ucantone/transport"
-	"github.com/alanshaw/ucantone/ucan"
+	"github.com/fil-forge/ucantone/transport"
+	"github.com/fil-forge/ucantone/ucan"
 )
 
 type ResponseDecoder[Res any] interface {

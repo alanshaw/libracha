@@ -10,7 +10,7 @@ import (
 	"sort"
 
 	jsg "github.com/alanshaw/dag-json-gen"
-	promise "github.com/alanshaw/ucantone/ucan/promise"
+	promise "github.com/fil-forge/ucantone/ucan/promise"
 	cid "github.com/ipfs/go-cid"
 )
 
