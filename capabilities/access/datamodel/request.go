@@ -3,6 +3,7 @@ package datamodel
 import (
 	"github.com/fil-forge/ucantone/did"
 	"github.com/fil-forge/ucantone/ucan"
+	"github.com/fil-forge/ucantone/ucan/promise"
 	"github.com/ipfs/go-cid"
 )
 
@@ -20,6 +21,8 @@ type CapabilityRequestModel struct {
 type RequestOKModel struct {
 	// Request is a link to the access request invocation.
 	Request cid.Cid `cborgen:"req" dagjsongen:"req"`
+	// Confirm is the task that will confirm the access request.
+	Confirm promise.AwaitOK `cborgen:"confirm" dagjsongen:"confirm"`
 	// Expiration is the time at which the confirmation will expire.
 	Expiration int64 `cborgen:"exp" dagjsongen:"exp"`
 }

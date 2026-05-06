@@ -284,7 +284,7 @@ func (t *RequestOKModel) MarshalCBOR(w io.Writer) error {
 
 	cw := cbg.NewCborWriter(w)
 
-	if _, err := cw.Write([]byte{162}); err != nil {
+	if _, err := cw.Write([]byte{163}); err != nil {
 		return err
 	}
 
@@ -326,6 +326,21 @@ func (t *RequestOKModel) MarshalCBOR(w io.Writer) error {
 		return xerrors.Errorf("failed to write cid field t.Request: %w", err)
 	}
 
+	// t.Confirm (promise.AwaitOK) (struct)
+	if len("confirm") > 8192 {
+		return xerrors.Errorf("Value in field \"confirm\" was too long")
+	}
+
+	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("confirm"))); err != nil {
+		return err
+	}
+	if _, err := cw.WriteString(string("confirm")); err != nil {
+		return err
+	}
+
+	if err := t.Confirm.MarshalCBOR(cw); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -354,7 +369,7 @@ func (t *RequestOKModel) UnmarshalCBOR(r io.Reader) (err error) {
 
 	n := extra
 
-	nameBuf := make([]byte, 3)
+	nameBuf := make([]byte, 7)
 	for i := uint64(0); i < n; i++ {
 		nameLen, ok, err := cbg.ReadFullStringIntoBuf(cr, nameBuf, 8192)
 		if err != nil {
@@ -407,6 +422,16 @@ func (t *RequestOKModel) UnmarshalCBOR(r io.Reader) (err error) {
 				}
 
 				t.Request = c
+
+			}
+			// t.Confirm (promise.AwaitOK) (struct)
+		case "confirm":
+
+			{
+
+				if err := t.Confirm.UnmarshalCBOR(cr); err != nil {
+					return xerrors.Errorf("unmarshaling t.Confirm: %w", err)
+				}
 
 			}
 

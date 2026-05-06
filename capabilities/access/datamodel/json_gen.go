@@ -302,6 +302,26 @@ func (t *RequestOKModel) MarshalDagJSON(w io.Writer) error {
 	}
 	written := 0
 
+	// t.Confirm (promise.AwaitOK) (struct)
+	if len("confirm") > 8192 {
+		return fmt.Errorf("String in field \"confirm\" was too long")
+	}
+	if err := jw.WriteString(string("confirm")); err != nil {
+		return fmt.Errorf("\"confirm\": %w", err)
+	}
+	if err := jw.WriteObjectColon(); err != nil {
+		return err
+	}
+	if err := t.Confirm.MarshalDagJSON(jw); err != nil {
+		return fmt.Errorf("t.Confirm: %w", err)
+	}
+	written++
+	if written > 0 {
+		if err := jw.WriteComma(); err != nil {
+			return err
+		}
+	}
+
 	// t.Expiration (int64) (int64)
 	if len("exp") > 8192 {
 		return fmt.Errorf("String in field \"exp\" was too long")
@@ -379,7 +399,14 @@ func (t *RequestOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			}
 			switch name {
 
-			// t.Expiration (int64) (int64)
+			// t.Confirm (promise.AwaitOK) (struct)
+			case "confirm":
+
+				if err := t.Confirm.UnmarshalDagJSON(jr); err != nil {
+					return fmt.Errorf("unmarshaling t.Confirm: %w", err)
+				}
+
+				// t.Expiration (int64) (int64)
 			case "exp":
 				{
 
