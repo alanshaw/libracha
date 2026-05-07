@@ -6,8 +6,9 @@ import (
 )
 
 type (
-	RequestArguments = adm.RequestArgumentsModel
-	RequestOK        = adm.RequestOKModel
+	RequestArguments  = adm.RequestArgumentsModel
+	RequestOK         = adm.RequestOKModel
+	CapabilityRequest = adm.CapabilityRequestModel
 )
 
 // RequestFactKey is the key in metadata in any delegation created by a
