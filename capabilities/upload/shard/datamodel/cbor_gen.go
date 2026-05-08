@@ -39,7 +39,7 @@ func (t *ListArgumentsModel) MarshalCBOR(w io.Writer) error {
 		return err
 	}
 
-	// t.Size (uint64) (uint64)
+	// t.Size (int64) (int64)
 	if t.Size != nil {
 
 		if len("size") > 8192 {
@@ -58,8 +58,14 @@ func (t *ListArgumentsModel) MarshalCBOR(w io.Writer) error {
 				return err
 			}
 		} else {
-			if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(*t.Size)); err != nil {
-				return err
+			if *t.Size >= 0 {
+				if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(*t.Size)); err != nil {
+					return err
+				}
+			} else {
+				if err := cw.WriteMajorTypeHeader(cbg.MajNegativeInt, uint64(-*t.Size-1)); err != nil {
+					return err
+				}
 			}
 		}
 
@@ -140,9 +146,8 @@ func (t *ListArgumentsModel) UnmarshalCBOR(r io.Reader) (err error) {
 		}
 
 		switch string(nameBuf[:nameLen]) {
-		// t.Size (uint64) (uint64)
+		// t.Size (int64) (int64)
 		case "size":
-
 			{
 
 				b, err := cr.ReadByte()
@@ -153,17 +158,29 @@ func (t *ListArgumentsModel) UnmarshalCBOR(r io.Reader) (err error) {
 					if err := cr.UnreadByte(); err != nil {
 						return err
 					}
-					maj, extra, err = cr.ReadHeader()
+					maj, extra, err := cr.ReadHeader()
 					if err != nil {
 						return err
 					}
-					if maj != cbg.MajUnsignedInt {
-						return fmt.Errorf("wrong type for uint64 field")
+					var extraI int64
+					switch maj {
+					case cbg.MajUnsignedInt:
+						extraI = int64(extra)
+						if extraI < 0 {
+							return fmt.Errorf("int64 positive overflow")
+						}
+					case cbg.MajNegativeInt:
+						extraI = int64(extra)
+						if extraI < 0 {
+							return fmt.Errorf("int64 negative overflow")
+						}
+						extraI = -1 - extraI
+					default:
+						return fmt.Errorf("wrong type for int64 field: %d", maj)
 					}
-					typed := uint64(extra)
-					t.Size = &typed
-				}
 
+					t.Size = (*int64)(&extraI)
+				}
 			}
 			// t.Cursor (string) (string)
 		case "cursor":
@@ -204,17 +221,9 @@ func (t *ListOKModel) MarshalCBOR(w io.Writer) error {
 	}
 
 	cw := cbg.NewCborWriter(w)
-	fieldCount := 5
+	fieldCount := 3
 
 	if t.Cursor == nil {
-		fieldCount--
-	}
-
-	if t.Before == nil {
-		fieldCount--
-	}
-
-	if t.After == nil {
 		fieldCount--
 	}
 
@@ -222,7 +231,7 @@ func (t *ListOKModel) MarshalCBOR(w io.Writer) error {
 		return err
 	}
 
-	// t.Size (uint64) (uint64)
+	// t.Size (int64) (int64)
 	if len("size") > 8192 {
 		return xerrors.Errorf("Value in field \"size\" was too long")
 	}
@@ -234,71 +243,13 @@ func (t *ListOKModel) MarshalCBOR(w io.Writer) error {
 		return err
 	}
 
-	if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(t.Size)); err != nil {
-		return err
-	}
-
-	// t.After (string) (string)
-	if t.After != nil {
-
-		if len("after") > 8192 {
-			return xerrors.Errorf("Value in field \"after\" was too long")
-		}
-
-		if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("after"))); err != nil {
+	if t.Size >= 0 {
+		if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(t.Size)); err != nil {
 			return err
 		}
-		if _, err := cw.WriteString(string("after")); err != nil {
+	} else {
+		if err := cw.WriteMajorTypeHeader(cbg.MajNegativeInt, uint64(-t.Size-1)); err != nil {
 			return err
-		}
-
-		if t.After == nil {
-			if _, err := cw.Write(cbg.CborNull); err != nil {
-				return err
-			}
-		} else {
-			if len(*t.After) > 8192 {
-				return xerrors.Errorf("Value in field t.After was too long")
-			}
-
-			if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len(*t.After))); err != nil {
-				return err
-			}
-			if _, err := cw.WriteString(string(*t.After)); err != nil {
-				return err
-			}
-		}
-	}
-
-	// t.Before (string) (string)
-	if t.Before != nil {
-
-		if len("before") > 8192 {
-			return xerrors.Errorf("Value in field \"before\" was too long")
-		}
-
-		if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("before"))); err != nil {
-			return err
-		}
-		if _, err := cw.WriteString(string("before")); err != nil {
-			return err
-		}
-
-		if t.Before == nil {
-			if _, err := cw.Write(cbg.CborNull); err != nil {
-				return err
-			}
-		} else {
-			if len(*t.Before) > 8192 {
-				return xerrors.Errorf("Value in field t.Before was too long")
-			}
-
-			if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len(*t.Before))); err != nil {
-				return err
-			}
-			if _, err := cw.WriteString(string(*t.Before)); err != nil {
-				return err
-			}
 		}
 	}
 
@@ -334,7 +285,7 @@ func (t *ListOKModel) MarshalCBOR(w io.Writer) error {
 		}
 	}
 
-	// t.Results ([]datamodel.ListBlobItem) (slice)
+	// t.Results ([]cid.Cid) (slice)
 	if len("results") > 8192 {
 		return xerrors.Errorf("Value in field \"results\" was too long")
 	}
@@ -354,8 +305,9 @@ func (t *ListOKModel) MarshalCBOR(w io.Writer) error {
 		return err
 	}
 	for _, v := range t.Results {
-		if err := v.MarshalCBOR(cw); err != nil {
-			return err
+
+		if err := cbg.WriteCid(cw, v); err != nil {
+			return xerrors.Errorf("failed to write cid field v: %w", err)
 		}
 
 	}
@@ -403,62 +355,31 @@ func (t *ListOKModel) UnmarshalCBOR(r io.Reader) (err error) {
 		}
 
 		switch string(nameBuf[:nameLen]) {
-		// t.Size (uint64) (uint64)
+		// t.Size (int64) (int64)
 		case "size":
-
 			{
-
-				maj, extra, err = cr.ReadHeader()
+				maj, extra, err := cr.ReadHeader()
 				if err != nil {
 					return err
 				}
-				if maj != cbg.MajUnsignedInt {
-					return fmt.Errorf("wrong type for uint64 field")
-				}
-				t.Size = uint64(extra)
-
-			}
-			// t.After (string) (string)
-		case "after":
-
-			{
-				b, err := cr.ReadByte()
-				if err != nil {
-					return err
-				}
-				if b != cbg.CborNull[0] {
-					if err := cr.UnreadByte(); err != nil {
-						return err
+				var extraI int64
+				switch maj {
+				case cbg.MajUnsignedInt:
+					extraI = int64(extra)
+					if extraI < 0 {
+						return fmt.Errorf("int64 positive overflow")
 					}
-
-					sval, err := cbg.ReadStringWithMax(cr, 8192)
-					if err != nil {
-						return err
+				case cbg.MajNegativeInt:
+					extraI = int64(extra)
+					if extraI < 0 {
+						return fmt.Errorf("int64 negative overflow")
 					}
-
-					t.After = (*string)(&sval)
+					extraI = -1 - extraI
+				default:
+					return fmt.Errorf("wrong type for int64 field: %d", maj)
 				}
-			}
-			// t.Before (string) (string)
-		case "before":
 
-			{
-				b, err := cr.ReadByte()
-				if err != nil {
-					return err
-				}
-				if b != cbg.CborNull[0] {
-					if err := cr.UnreadByte(); err != nil {
-						return err
-					}
-
-					sval, err := cbg.ReadStringWithMax(cr, 8192)
-					if err != nil {
-						return err
-					}
-
-					t.Before = (*string)(&sval)
-				}
+				t.Size = int64(extraI)
 			}
 			// t.Cursor (string) (string)
 		case "cursor":
@@ -481,7 +402,7 @@ func (t *ListOKModel) UnmarshalCBOR(r io.Reader) (err error) {
 					t.Cursor = (*string)(&sval)
 				}
 			}
-			// t.Results ([]datamodel.ListBlobItem) (slice)
+			// t.Results ([]cid.Cid) (slice)
 		case "results":
 
 			maj, extra, err = cr.ReadHeader()
@@ -498,7 +419,7 @@ func (t *ListOKModel) UnmarshalCBOR(r io.Reader) (err error) {
 			}
 
 			if extra > 0 {
-				t.Results = make([]ListBlobItem, extra)
+				t.Results = make([]cid.Cid, extra)
 			}
 
 			for i := 0; i < int(extra); i++ {
@@ -512,137 +433,16 @@ func (t *ListOKModel) UnmarshalCBOR(r io.Reader) (err error) {
 
 					{
 
-						if err := t.Results[i].UnmarshalCBOR(cr); err != nil {
-							return xerrors.Errorf("unmarshaling t.Results[i]: %w", err)
+						c, err := cbg.ReadCid(cr)
+						if err != nil {
+							return xerrors.Errorf("failed to read cid field t.Results[i]: %w", err)
 						}
+
+						t.Results[i] = c
 
 					}
 
 				}
-			}
-
-		default:
-			// Field doesn't exist on this type, so ignore it
-			if err := cbg.ScanForLinks(r, func(cid.Cid) {}); err != nil {
-				return err
-			}
-		}
-	}
-
-	return nil
-}
-func (t *ListBlobItem) MarshalCBOR(w io.Writer) error {
-	if t == nil {
-		_, err := w.Write(cbg.CborNull)
-		return err
-	}
-
-	cw := cbg.NewCborWriter(w)
-
-	if _, err := cw.Write([]byte{162}); err != nil {
-		return err
-	}
-
-	// t.Blob (datamodel.BlobModel) (struct)
-	if len("blob") > 8192 {
-		return xerrors.Errorf("Value in field \"blob\" was too long")
-	}
-
-	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("blob"))); err != nil {
-		return err
-	}
-	if _, err := cw.WriteString(string("blob")); err != nil {
-		return err
-	}
-
-	if err := t.Blob.MarshalCBOR(cw); err != nil {
-		return err
-	}
-
-	// t.InsertedAt (uint64) (uint64)
-	if len("insertedAt") > 8192 {
-		return xerrors.Errorf("Value in field \"insertedAt\" was too long")
-	}
-
-	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("insertedAt"))); err != nil {
-		return err
-	}
-	if _, err := cw.WriteString(string("insertedAt")); err != nil {
-		return err
-	}
-
-	if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(t.InsertedAt)); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (t *ListBlobItem) UnmarshalCBOR(r io.Reader) (err error) {
-	*t = ListBlobItem{}
-
-	cr := cbg.NewCborReader(r)
-
-	maj, extra, err := cr.ReadHeader()
-	if err != nil {
-		return err
-	}
-	defer func() {
-		if err == io.EOF {
-			err = io.ErrUnexpectedEOF
-		}
-	}()
-
-	if maj != cbg.MajMap {
-		return fmt.Errorf("cbor input should be of type map")
-	}
-
-	if extra > cbg.MaxLength {
-		return fmt.Errorf("ListBlobItem: map struct too large (%d)", extra)
-	}
-
-	n := extra
-
-	nameBuf := make([]byte, 10)
-	for i := uint64(0); i < n; i++ {
-		nameLen, ok, err := cbg.ReadFullStringIntoBuf(cr, nameBuf, 8192)
-		if err != nil {
-			return err
-		}
-
-		if !ok {
-			// Field doesn't exist on this type, so ignore it
-			if err := cbg.ScanForLinks(cr, func(cid.Cid) {}); err != nil {
-				return err
-			}
-			continue
-		}
-
-		switch string(nameBuf[:nameLen]) {
-		// t.Blob (datamodel.BlobModel) (struct)
-		case "blob":
-
-			{
-
-				if err := t.Blob.UnmarshalCBOR(cr); err != nil {
-					return xerrors.Errorf("unmarshaling t.Blob: %w", err)
-				}
-
-			}
-			// t.InsertedAt (uint64) (uint64)
-		case "insertedAt":
-
-			{
-
-				maj, extra, err = cr.ReadHeader()
-				if err != nil {
-					return err
-				}
-				if maj != cbg.MajUnsignedInt {
-					return fmt.Errorf("wrong type for uint64 field")
-				}
-				t.InsertedAt = uint64(extra)
-
 			}
 
 		default:

@@ -1,16 +1,17 @@
+//go:generate go run .
+
 package main
 
 import (
 	jsg "github.com/alanshaw/dag-json-gen"
-	sbdm "github.com/alanshaw/libracha/capabilities/space/blob/datamodel"
+	dm "github.com/fil-forge/libforge/capabilities/upload/shard/datamodel"
 	cbg "github.com/whyrusleeping/cbor-gen"
 )
 
 func main() {
 	models := []any{
-		sbdm.ListArgumentsModel{},
-		sbdm.ListOKModel{},
-		sbdm.ListBlobItem{},
+		dm.ListArgumentsModel{},
+		dm.ListOKModel{},
 	}
 	if err := cbg.WriteMapEncodersToFile("../cbor_gen.go", "datamodel", models...); err != nil {
 		panic(err)

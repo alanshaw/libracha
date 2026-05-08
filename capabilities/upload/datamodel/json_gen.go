@@ -334,3 +334,519 @@ func (t *RemoveArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 
 	return nil
 }
+func (t *ListArgumentsModel) MarshalDagJSON(w io.Writer) error {
+	jw := jsg.NewDagJsonWriter(w)
+	if t == nil {
+		err := jw.WriteNull()
+		return err
+	}
+	if err := jw.WriteObjectOpen(); err != nil {
+		return err
+	}
+	written := 0
+
+	// t.Cursor (string) (string)
+	if t.Cursor != nil {
+		if len("cursor") > 8192 {
+			return fmt.Errorf("String in field \"cursor\" was too long")
+		}
+		if err := jw.WriteString(string("cursor")); err != nil {
+			return fmt.Errorf("\"cursor\": %w", err)
+		}
+		if err := jw.WriteObjectColon(); err != nil {
+			return err
+		}
+		if t.Cursor == nil {
+			if err := jw.WriteNull(); err != nil {
+				return fmt.Errorf("t.Cursor: %w", err)
+			}
+		} else {
+			if len(*t.Cursor) > 8192 {
+				return fmt.Errorf("String in field t.Cursor was too long")
+			}
+			if err := jw.WriteString(string(*t.Cursor)); err != nil {
+				return fmt.Errorf("t.Cursor: %w", err)
+			}
+		}
+		written++
+	}
+	if t.Size != nil {
+		if written > 0 {
+			if err := jw.WriteComma(); err != nil {
+				return err
+			}
+		}
+	}
+
+	// t.Size (int64) (int64)
+	if t.Size != nil {
+		if len("size") > 8192 {
+			return fmt.Errorf("String in field \"size\" was too long")
+		}
+		if err := jw.WriteString(string("size")); err != nil {
+			return fmt.Errorf("\"size\": %w", err)
+		}
+		if err := jw.WriteObjectColon(); err != nil {
+			return err
+		}
+
+		if t.Size == nil {
+			if err := jw.WriteNull(); err != nil {
+				return fmt.Errorf("t.Size: %w", err)
+			}
+		} else {
+			if err := jw.WriteInt64(int64(*t.Size)); err != nil {
+				return fmt.Errorf("t.Size: %w", err)
+			}
+		}
+
+		written++
+	}
+	if err := jw.WriteObjectClose(); err != nil {
+		return err
+	}
+	return nil
+}
+func (t *ListArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
+	*t = ListArgumentsModel{}
+
+	jr := jsg.NewDagJsonReader(r)
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+	if err := jr.ReadObjectOpen(); err != nil {
+		return fmt.Errorf("ListArgumentsModel: %w", err)
+	}
+	close, err := jr.PeekObjectClose()
+	if err != nil {
+		return fmt.Errorf("ListArgumentsModel: %w", err)
+	}
+	if close {
+		if err := jr.ReadObjectClose(); err != nil {
+			return fmt.Errorf("ListArgumentsModel: %w", err)
+		}
+	} else {
+		for i := uint64(0); i < 8192; i++ {
+			name, err := jr.ReadString(8192)
+			if err != nil {
+				if errors.Is(err, jsg.ErrLimitExceeded) {
+					return fmt.Errorf("ListArgumentsModel: string too large")
+				}
+				return fmt.Errorf("ListArgumentsModel: %w", err)
+			}
+			if err := jr.ReadObjectColon(); err != nil {
+				return fmt.Errorf("ListArgumentsModel: %w", err)
+			}
+			switch name {
+
+			// t.Cursor (string) (string)
+			case "cursor":
+				{
+					sval, err := jr.ReadStringOrNull(8192)
+					if err != nil {
+						if errors.Is(err, jsg.ErrLimitExceeded) {
+							return fmt.Errorf("t.Cursor: string too long")
+						}
+						return fmt.Errorf("t.Cursor: %w", err)
+					}
+					if sval != nil {
+						t.Cursor = (*string)(sval)
+					}
+				}
+
+				// t.Size (int64) (int64)
+			case "size":
+				{
+
+					nval, err := jr.ReadNumberAsInt64OrNull()
+					if err != nil {
+						return fmt.Errorf("t.Size: %w", err)
+					}
+					if nval != nil {
+						typed := int64(*nval)
+						t.Size = &typed
+					}
+
+				}
+			default:
+				// Field doesn't exist on this type, so ignore it
+				if err := jr.DiscardType(); err != nil {
+					return fmt.Errorf("ListArgumentsModel: ignoring field %s: %w", name, err)
+				}
+			}
+
+			close, err := jr.ReadObjectCloseOrComma()
+			if err != nil {
+				return fmt.Errorf("ListArgumentsModel: %w", err)
+			}
+			if close {
+				break
+			}
+			if i == 8192-1 {
+				return fmt.Errorf("ListArgumentsModel: map too large")
+			}
+		}
+	}
+
+	return nil
+}
+func (t *ListOKModel) MarshalDagJSON(w io.Writer) error {
+	jw := jsg.NewDagJsonWriter(w)
+	if t == nil {
+		err := jw.WriteNull()
+		return err
+	}
+	if err := jw.WriteObjectOpen(); err != nil {
+		return err
+	}
+	written := 0
+
+	// t.Cursor (string) (string)
+	if t.Cursor != nil {
+		if len("cursor") > 8192 {
+			return fmt.Errorf("String in field \"cursor\" was too long")
+		}
+		if err := jw.WriteString(string("cursor")); err != nil {
+			return fmt.Errorf("\"cursor\": %w", err)
+		}
+		if err := jw.WriteObjectColon(); err != nil {
+			return err
+		}
+		if t.Cursor == nil {
+			if err := jw.WriteNull(); err != nil {
+				return fmt.Errorf("t.Cursor: %w", err)
+			}
+		} else {
+			if len(*t.Cursor) > 8192 {
+				return fmt.Errorf("String in field t.Cursor was too long")
+			}
+			if err := jw.WriteString(string(*t.Cursor)); err != nil {
+				return fmt.Errorf("t.Cursor: %w", err)
+			}
+		}
+		written++
+	}
+	if written > 0 {
+		if err := jw.WriteComma(); err != nil {
+			return err
+		}
+	}
+
+	// t.Results ([]datamodel.ListUploadItem) (slice)
+	if len("results") > 8192 {
+		return fmt.Errorf("String in field \"results\" was too long")
+	}
+	if err := jw.WriteString(string("results")); err != nil {
+		return fmt.Errorf("\"results\": %w", err)
+	}
+	if err := jw.WriteObjectColon(); err != nil {
+		return err
+	}
+	if len(t.Results) > 8192 {
+		return fmt.Errorf("Slice value in field t.Results was too long")
+	}
+
+	if err := jw.WriteArrayOpen(); err != nil {
+		return fmt.Errorf("t.Results: %w", err)
+	}
+	for i, v := range t.Results {
+		if i > 0 {
+			if err := jw.WriteComma(); err != nil {
+				return fmt.Errorf("t.Results: %w", err)
+			}
+		}
+		if err := v.MarshalDagJSON(jw); err != nil {
+			return fmt.Errorf("v: %w", err)
+		}
+	}
+	if err := jw.WriteArrayClose(); err != nil {
+		return fmt.Errorf("t.Results: %w", err)
+	}
+
+	written++
+	if written > 0 {
+		if err := jw.WriteComma(); err != nil {
+			return err
+		}
+	}
+
+	// t.Size (int64) (int64)
+	if len("size") > 8192 {
+		return fmt.Errorf("String in field \"size\" was too long")
+	}
+	if err := jw.WriteString(string("size")); err != nil {
+		return fmt.Errorf("\"size\": %w", err)
+	}
+	if err := jw.WriteObjectColon(); err != nil {
+		return err
+	}
+
+	if err := jw.WriteInt64(int64(t.Size)); err != nil {
+		return fmt.Errorf("t.Size: %w", err)
+	}
+
+	written++
+	if err := jw.WriteObjectClose(); err != nil {
+		return err
+	}
+	return nil
+}
+func (t *ListOKModel) UnmarshalDagJSON(r io.Reader) (err error) {
+	*t = ListOKModel{}
+
+	jr := jsg.NewDagJsonReader(r)
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+	if err := jr.ReadObjectOpen(); err != nil {
+		return fmt.Errorf("ListOKModel: %w", err)
+	}
+	close, err := jr.PeekObjectClose()
+	if err != nil {
+		return fmt.Errorf("ListOKModel: %w", err)
+	}
+	if close {
+		if err := jr.ReadObjectClose(); err != nil {
+			return fmt.Errorf("ListOKModel: %w", err)
+		}
+	} else {
+		for i := uint64(0); i < 8192; i++ {
+			name, err := jr.ReadString(8192)
+			if err != nil {
+				if errors.Is(err, jsg.ErrLimitExceeded) {
+					return fmt.Errorf("ListOKModel: string too large")
+				}
+				return fmt.Errorf("ListOKModel: %w", err)
+			}
+			if err := jr.ReadObjectColon(); err != nil {
+				return fmt.Errorf("ListOKModel: %w", err)
+			}
+			switch name {
+
+			// t.Cursor (string) (string)
+			case "cursor":
+				{
+					sval, err := jr.ReadStringOrNull(8192)
+					if err != nil {
+						if errors.Is(err, jsg.ErrLimitExceeded) {
+							return fmt.Errorf("t.Cursor: string too long")
+						}
+						return fmt.Errorf("t.Cursor: %w", err)
+					}
+					if sval != nil {
+						t.Cursor = (*string)(sval)
+					}
+				}
+
+				// t.Results ([]datamodel.ListUploadItem) (slice)
+			case "results":
+				{
+
+					if err := jr.ReadArrayOpen(); err != nil {
+						return fmt.Errorf("t.Results: %w", err)
+					}
+
+					close, err := jr.PeekArrayClose()
+					if err != nil {
+						return fmt.Errorf("t.Results: %w", err)
+					}
+					if close {
+						if err := jr.ReadArrayClose(); err != nil {
+							return fmt.Errorf("t.Results: %w", err)
+						}
+
+					} else {
+						for i := 0; i < 8192; i++ {
+							item := make([]ListUploadItem, 1)
+
+							if err := item[0].UnmarshalDagJSON(jr); err != nil {
+								return fmt.Errorf("unmarshaling item[0]: %w", err)
+							}
+
+							t.Results = append(t.Results, item[0])
+
+							close, err := jr.ReadArrayCloseOrComma()
+							if err != nil {
+								return fmt.Errorf("t.Results: %w", err)
+							}
+							if close {
+								break
+							}
+							if i == 8192-1 {
+								return fmt.Errorf("t.Results: slice too large")
+							}
+						}
+					}
+
+				}
+
+				// t.Size (int64) (int64)
+			case "size":
+				{
+
+					nval, err := jr.ReadNumberAsInt64()
+					if err != nil {
+						return fmt.Errorf("t.Size: %w", err)
+					}
+					t.Size = int64(nval)
+
+				}
+			default:
+				// Field doesn't exist on this type, so ignore it
+				if err := jr.DiscardType(); err != nil {
+					return fmt.Errorf("ListOKModel: ignoring field %s: %w", name, err)
+				}
+			}
+
+			close, err := jr.ReadObjectCloseOrComma()
+			if err != nil {
+				return fmt.Errorf("ListOKModel: %w", err)
+			}
+			if close {
+				break
+			}
+			if i == 8192-1 {
+				return fmt.Errorf("ListOKModel: map too large")
+			}
+		}
+	}
+
+	return nil
+}
+func (t *ListUploadItem) MarshalDagJSON(w io.Writer) error {
+	jw := jsg.NewDagJsonWriter(w)
+	if t == nil {
+		err := jw.WriteNull()
+		return err
+	}
+	if err := jw.WriteObjectOpen(); err != nil {
+		return err
+	}
+	written := 0
+
+	// t.Index (cid.Cid) (struct)
+	if len("index") > 8192 {
+		return fmt.Errorf("String in field \"index\" was too long")
+	}
+	if err := jw.WriteString(string("index")); err != nil {
+		return fmt.Errorf("\"index\": %w", err)
+	}
+	if err := jw.WriteObjectColon(); err != nil {
+		return err
+	}
+
+	if err := jw.WriteCid(t.Index); err != nil {
+		return fmt.Errorf("t.Index: %w", err)
+	}
+
+	written++
+	if written > 0 {
+		if err := jw.WriteComma(); err != nil {
+			return err
+		}
+	}
+
+	// t.Root (cid.Cid) (struct)
+	if len("root") > 8192 {
+		return fmt.Errorf("String in field \"root\" was too long")
+	}
+	if err := jw.WriteString(string("root")); err != nil {
+		return fmt.Errorf("\"root\": %w", err)
+	}
+	if err := jw.WriteObjectColon(); err != nil {
+		return err
+	}
+
+	if err := jw.WriteCid(t.Root); err != nil {
+		return fmt.Errorf("t.Root: %w", err)
+	}
+
+	written++
+	if err := jw.WriteObjectClose(); err != nil {
+		return err
+	}
+	return nil
+}
+func (t *ListUploadItem) UnmarshalDagJSON(r io.Reader) (err error) {
+	*t = ListUploadItem{}
+
+	jr := jsg.NewDagJsonReader(r)
+	defer func() {
+		if err == io.EOF {
+			err = io.ErrUnexpectedEOF
+		}
+	}()
+	if err := jr.ReadObjectOpen(); err != nil {
+		return fmt.Errorf("ListUploadItem: %w", err)
+	}
+	close, err := jr.PeekObjectClose()
+	if err != nil {
+		return fmt.Errorf("ListUploadItem: %w", err)
+	}
+	if close {
+		if err := jr.ReadObjectClose(); err != nil {
+			return fmt.Errorf("ListUploadItem: %w", err)
+		}
+	} else {
+		for i := uint64(0); i < 8192; i++ {
+			name, err := jr.ReadString(8192)
+			if err != nil {
+				if errors.Is(err, jsg.ErrLimitExceeded) {
+					return fmt.Errorf("ListUploadItem: string too large")
+				}
+				return fmt.Errorf("ListUploadItem: %w", err)
+			}
+			if err := jr.ReadObjectColon(); err != nil {
+				return fmt.Errorf("ListUploadItem: %w", err)
+			}
+			switch name {
+
+			// t.Index (cid.Cid) (struct)
+			case "index":
+				{
+
+					c, err := jr.ReadCid()
+					if err != nil {
+						return fmt.Errorf("t.Index: %w", err)
+					}
+					t.Index = c
+
+				}
+
+				// t.Root (cid.Cid) (struct)
+			case "root":
+				{
+
+					c, err := jr.ReadCid()
+					if err != nil {
+						return fmt.Errorf("t.Root: %w", err)
+					}
+					t.Root = c
+
+				}
+			default:
+				// Field doesn't exist on this type, so ignore it
+				if err := jr.DiscardType(); err != nil {
+					return fmt.Errorf("ListUploadItem: ignoring field %s: %w", name, err)
+				}
+			}
+
+			close, err := jr.ReadObjectCloseOrComma()
+			if err != nil {
+				return fmt.Errorf("ListUploadItem: %w", err)
+			}
+			if close {
+				break
+			}
+			if i == 8192-1 {
+				return fmt.Errorf("ListUploadItem: map too large")
+			}
+		}
+	}
+
+	return nil
+}
