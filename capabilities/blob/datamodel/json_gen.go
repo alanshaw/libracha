@@ -437,7 +437,7 @@ func (t *BlobAddressModel) MarshalDagJSON(w io.Writer) error {
 	}
 	written := 0
 
-	// t.Expires (capabilities.CborTime) (struct)
+	// t.Expires (int64) (int64)
 	if len("expires") > 8192 {
 		return fmt.Errorf("String in field \"expires\" was too long")
 	}
@@ -447,9 +447,11 @@ func (t *BlobAddressModel) MarshalDagJSON(w io.Writer) error {
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
 	}
-	if err := t.Expires.MarshalDagJSON(jw); err != nil {
+
+	if err := jw.WriteInt64(int64(t.Expires)); err != nil {
 		return fmt.Errorf("t.Expires: %w", err)
 	}
+
 	written++
 	if written > 0 {
 		if err := jw.WriteComma(); err != nil {
@@ -570,11 +572,16 @@ func (t *BlobAddressModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			}
 			switch name {
 
-			// t.Expires (capabilities.CborTime) (struct)
+			// t.Expires (int64) (int64)
 			case "expires":
+				{
 
-				if err := t.Expires.UnmarshalDagJSON(jr); err != nil {
-					return fmt.Errorf("unmarshaling t.Expires: %w", err)
+					nval, err := jr.ReadNumberAsInt64()
+					if err != nil {
+						return fmt.Errorf("t.Expires: %w", err)
+					}
+					t.Expires = int64(nval)
+
 				}
 
 				// t.Headers (map[string]string) (map)

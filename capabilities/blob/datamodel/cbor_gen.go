@@ -454,7 +454,7 @@ func (t *BlobAddressModel) MarshalCBOR(w io.Writer) error {
 		return err
 	}
 
-	// t.Expires (capabilities.CborTime) (struct)
+	// t.Expires (int64) (int64)
 	if len("expires") > 8192 {
 		return xerrors.Errorf("Value in field \"expires\" was too long")
 	}
@@ -466,8 +466,14 @@ func (t *BlobAddressModel) MarshalCBOR(w io.Writer) error {
 		return err
 	}
 
-	if err := t.Expires.MarshalCBOR(cw); err != nil {
-		return err
+	if t.Expires >= 0 {
+		if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(t.Expires)); err != nil {
+			return err
+		}
+	} else {
+		if err := cw.WriteMajorTypeHeader(cbg.MajNegativeInt, uint64(-t.Expires-1)); err != nil {
+			return err
+		}
 	}
 
 	// t.Headers (map[string]string) (map)
@@ -577,15 +583,31 @@ func (t *BlobAddressModel) UnmarshalCBOR(r io.Reader) (err error) {
 				}
 
 			}
-			// t.Expires (capabilities.CborTime) (struct)
+			// t.Expires (int64) (int64)
 		case "expires":
-
 			{
-
-				if err := t.Expires.UnmarshalCBOR(cr); err != nil {
-					return xerrors.Errorf("unmarshaling t.Expires: %w", err)
+				maj, extra, err := cr.ReadHeader()
+				if err != nil {
+					return err
+				}
+				var extraI int64
+				switch maj {
+				case cbg.MajUnsignedInt:
+					extraI = int64(extra)
+					if extraI < 0 {
+						return fmt.Errorf("int64 positive overflow")
+					}
+				case cbg.MajNegativeInt:
+					extraI = int64(extra)
+					if extraI < 0 {
+						return fmt.Errorf("int64 negative overflow")
+					}
+					extraI = -1 - extraI
+				default:
+					return fmt.Errorf("wrong type for int64 field: %d", maj)
 				}
 
+				t.Expires = int64(extraI)
 			}
 			// t.Headers (map[string]string) (map)
 		case "headers":
