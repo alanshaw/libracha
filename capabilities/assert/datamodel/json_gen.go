@@ -28,29 +28,6 @@ func (t *IndexArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	if err := jw.WriteObjectOpen(); err != nil {
 		return err
 	}
-	written := 0
-
-	// t.Content (cid.Cid) (struct)
-	if len("content") > 8192 {
-		return fmt.Errorf("String in field \"content\" was too long")
-	}
-	if err := jw.WriteString(string("content")); err != nil {
-		return fmt.Errorf("\"content\": %w", err)
-	}
-	if err := jw.WriteObjectColon(); err != nil {
-		return err
-	}
-
-	if err := jw.WriteCid(t.Content); err != nil {
-		return fmt.Errorf("t.Content: %w", err)
-	}
-
-	written++
-	if written > 0 {
-		if err := jw.WriteComma(); err != nil {
-			return err
-		}
-	}
 
 	// t.Index (cid.Cid) (struct)
 	if len("index") > 8192 {
@@ -67,7 +44,6 @@ func (t *IndexArgumentsModel) MarshalDagJSON(w io.Writer) error {
 		return fmt.Errorf("t.Index: %w", err)
 	}
 
-	written++
 	if err := jw.WriteObjectClose(); err != nil {
 		return err
 	}
@@ -107,19 +83,7 @@ func (t *IndexArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			}
 			switch name {
 
-			// t.Content (cid.Cid) (struct)
-			case "content":
-				{
-
-					c, err := jr.ReadCid()
-					if err != nil {
-						return fmt.Errorf("t.Content: %w", err)
-					}
-					t.Content = c
-
-				}
-
-				// t.Index (cid.Cid) (struct)
+			// t.Index (cid.Cid) (struct)
 			case "index":
 				{
 
