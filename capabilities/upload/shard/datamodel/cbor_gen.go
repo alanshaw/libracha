@@ -25,7 +25,7 @@ func (t *ListArgumentsModel) MarshalCBOR(w io.Writer) error {
 	}
 
 	cw := cbg.NewCborWriter(w)
-	fieldCount := 2
+	fieldCount := 3
 
 	if t.Cursor == nil {
 		fieldCount--
@@ -37,6 +37,22 @@ func (t *ListArgumentsModel) MarshalCBOR(w io.Writer) error {
 
 	if _, err := cw.Write(cbg.CborEncodeMajorType(cbg.MajMap, uint64(fieldCount))); err != nil {
 		return err
+	}
+
+	// t.Root (cid.Cid) (struct)
+	if len("root") > 8192 {
+		return xerrors.Errorf("Value in field \"root\" was too long")
+	}
+
+	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("root"))); err != nil {
+		return err
+	}
+	if _, err := cw.WriteString(string("root")); err != nil {
+		return err
+	}
+
+	if err := cbg.WriteCid(cw, t.Root); err != nil {
+		return xerrors.Errorf("failed to write cid field t.Root: %w", err)
 	}
 
 	// t.Size (int64) (int64)
@@ -146,7 +162,20 @@ func (t *ListArgumentsModel) UnmarshalCBOR(r io.Reader) (err error) {
 		}
 
 		switch string(nameBuf[:nameLen]) {
-		// t.Size (int64) (int64)
+		// t.Root (cid.Cid) (struct)
+		case "root":
+
+			{
+
+				c, err := cbg.ReadCid(cr)
+				if err != nil {
+					return xerrors.Errorf("failed to read cid field t.Root: %w", err)
+				}
+
+				t.Root = c
+
+			}
+			// t.Size (int64) (int64)
 		case "size":
 			{
 

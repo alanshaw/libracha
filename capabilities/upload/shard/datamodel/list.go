@@ -3,6 +3,7 @@ package datamodel
 import "github.com/ipfs/go-cid"
 
 type ListArgumentsModel struct {
+	Root   cid.Cid `cborgen:"root" dagjsongen:"root"`
 	Cursor *string `cborgen:"cursor,omitempty" dagjsongen:"cursor,omitempty"`
 	Size   *int64  `cborgen:"size,omitempty" dagjsongen:"size,omitempty"`
 }

@@ -54,6 +54,28 @@ func (t *ListArgumentsModel) MarshalDagJSON(w io.Writer) error {
 		}
 		written++
 	}
+	if written > 0 {
+		if err := jw.WriteComma(); err != nil {
+			return err
+		}
+	}
+
+	// t.Root (cid.Cid) (struct)
+	if len("root") > 8192 {
+		return fmt.Errorf("String in field \"root\" was too long")
+	}
+	if err := jw.WriteString(string("root")); err != nil {
+		return fmt.Errorf("\"root\": %w", err)
+	}
+	if err := jw.WriteObjectColon(); err != nil {
+		return err
+	}
+
+	if err := jw.WriteCid(t.Root); err != nil {
+		return fmt.Errorf("t.Root: %w", err)
+	}
+
+	written++
 	if t.Size != nil {
 		if written > 0 {
 			if err := jw.WriteComma(); err != nil {
@@ -138,6 +160,18 @@ func (t *ListArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 					if sval != nil {
 						t.Cursor = (*string)(sval)
 					}
+				}
+
+				// t.Root (cid.Cid) (struct)
+			case "root":
+				{
+
+					c, err := jr.ReadCid()
+					if err != nil {
+						return fmt.Errorf("t.Root: %w", err)
+					}
+					t.Root = c
+
 				}
 
 				// t.Size (int64) (int64)
