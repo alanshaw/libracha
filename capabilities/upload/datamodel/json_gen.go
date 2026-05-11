@@ -30,21 +30,29 @@ func (t *AddArgumentsModel) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Index (cid.Cid) (struct)
-	if len("index") > 8192 {
-		return fmt.Errorf("String in field \"index\" was too long")
-	}
-	if err := jw.WriteString(string("index")); err != nil {
-		return fmt.Errorf("\"index\": %w", err)
-	}
-	if err := jw.WriteObjectColon(); err != nil {
-		return err
-	}
+	if t.Index != nil {
+		if len("index") > 8192 {
+			return fmt.Errorf("String in field \"index\" was too long")
+		}
+		if err := jw.WriteString(string("index")); err != nil {
+			return fmt.Errorf("\"index\": %w", err)
+		}
+		if err := jw.WriteObjectColon(); err != nil {
+			return err
+		}
 
-	if err := jw.WriteCid(t.Index); err != nil {
-		return fmt.Errorf("t.Index: %w", err)
-	}
+		if t.Index == nil {
+			if err := jw.WriteNull(); err != nil {
+				return fmt.Errorf("t.Index: %w", err)
+			}
+		} else {
+			if err := jw.WriteCid(*t.Index); err != nil {
+				return fmt.Errorf("t.Index: %w", err)
+			}
+		}
 
-	written++
+		written++
+	}
 	if written > 0 {
 		if err := jw.WriteComma(); err != nil {
 			return err
@@ -150,7 +158,7 @@ func (t *AddArgumentsModel) UnmarshalDagJSON(r io.Reader) (err error) {
 			case "index":
 				{
 
-					c, err := jr.ReadCid()
+					c, err := jr.ReadCidOrNull()
 					if err != nil {
 						return fmt.Errorf("t.Index: %w", err)
 					}
@@ -729,21 +737,29 @@ func (t *ListUploadItem) MarshalDagJSON(w io.Writer) error {
 	written := 0
 
 	// t.Index (cid.Cid) (struct)
-	if len("index") > 8192 {
-		return fmt.Errorf("String in field \"index\" was too long")
-	}
-	if err := jw.WriteString(string("index")); err != nil {
-		return fmt.Errorf("\"index\": %w", err)
-	}
-	if err := jw.WriteObjectColon(); err != nil {
-		return err
-	}
+	if t.Index != nil {
+		if len("index") > 8192 {
+			return fmt.Errorf("String in field \"index\" was too long")
+		}
+		if err := jw.WriteString(string("index")); err != nil {
+			return fmt.Errorf("\"index\": %w", err)
+		}
+		if err := jw.WriteObjectColon(); err != nil {
+			return err
+		}
 
-	if err := jw.WriteCid(t.Index); err != nil {
-		return fmt.Errorf("t.Index: %w", err)
-	}
+		if t.Index == nil {
+			if err := jw.WriteNull(); err != nil {
+				return fmt.Errorf("t.Index: %w", err)
+			}
+		} else {
+			if err := jw.WriteCid(*t.Index); err != nil {
+				return fmt.Errorf("t.Index: %w", err)
+			}
+		}
 
-	written++
+		written++
+	}
 	if written > 0 {
 		if err := jw.WriteComma(); err != nil {
 			return err
@@ -809,7 +825,7 @@ func (t *ListUploadItem) UnmarshalDagJSON(r io.Reader) (err error) {
 			case "index":
 				{
 
-					c, err := jr.ReadCid()
+					c, err := jr.ReadCidOrNull()
 					if err != nil {
 						return fmt.Errorf("t.Index: %w", err)
 					}

@@ -25,8 +25,13 @@ func (t *AddArgumentsModel) MarshalCBOR(w io.Writer) error {
 	}
 
 	cw := cbg.NewCborWriter(w)
+	fieldCount := 3
 
-	if _, err := cw.Write([]byte{163}); err != nil {
+	if t.Index == nil {
+		fieldCount--
+	}
+
+	if _, err := cw.Write(cbg.CborEncodeMajorType(cbg.MajMap, uint64(fieldCount))); err != nil {
 		return err
 	}
 
@@ -47,19 +52,29 @@ func (t *AddArgumentsModel) MarshalCBOR(w io.Writer) error {
 	}
 
 	// t.Index (cid.Cid) (struct)
-	if len("index") > 8192 {
-		return xerrors.Errorf("Value in field \"index\" was too long")
-	}
+	if t.Index != nil {
 
-	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("index"))); err != nil {
-		return err
-	}
-	if _, err := cw.WriteString(string("index")); err != nil {
-		return err
-	}
+		if len("index") > 8192 {
+			return xerrors.Errorf("Value in field \"index\" was too long")
+		}
 
-	if err := cbg.WriteCid(cw, t.Index); err != nil {
-		return xerrors.Errorf("failed to write cid field t.Index: %w", err)
+		if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("index"))); err != nil {
+			return err
+		}
+		if _, err := cw.WriteString(string("index")); err != nil {
+			return err
+		}
+
+		if t.Index == nil {
+			if _, err := cw.Write(cbg.CborNull); err != nil {
+				return err
+			}
+		} else {
+			if err := cbg.WriteCid(cw, *t.Index); err != nil {
+				return xerrors.Errorf("failed to write cid field t.Index: %w", err)
+			}
+		}
+
 	}
 
 	// t.Shards ([]cid.Cid) (slice)
@@ -150,12 +165,22 @@ func (t *AddArgumentsModel) UnmarshalCBOR(r io.Reader) (err error) {
 
 			{
 
-				c, err := cbg.ReadCid(cr)
+				b, err := cr.ReadByte()
 				if err != nil {
-					return xerrors.Errorf("failed to read cid field t.Index: %w", err)
+					return err
 				}
+				if b != cbg.CborNull[0] {
+					if err := cr.UnreadByte(); err != nil {
+						return err
+					}
 
-				t.Index = c
+					c, err := cbg.ReadCid(cr)
+					if err != nil {
+						return xerrors.Errorf("failed to read cid field t.Index: %w", err)
+					}
+
+					t.Index = &c
+				}
 
 			}
 			// t.Shards ([]cid.Cid) (slice)
@@ -747,8 +772,13 @@ func (t *ListUploadItem) MarshalCBOR(w io.Writer) error {
 	}
 
 	cw := cbg.NewCborWriter(w)
+	fieldCount := 2
 
-	if _, err := cw.Write([]byte{162}); err != nil {
+	if t.Index == nil {
+		fieldCount--
+	}
+
+	if _, err := cw.Write(cbg.CborEncodeMajorType(cbg.MajMap, uint64(fieldCount))); err != nil {
 		return err
 	}
 
@@ -769,21 +799,30 @@ func (t *ListUploadItem) MarshalCBOR(w io.Writer) error {
 	}
 
 	// t.Index (cid.Cid) (struct)
-	if len("index") > 8192 {
-		return xerrors.Errorf("Value in field \"index\" was too long")
-	}
+	if t.Index != nil {
 
-	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("index"))); err != nil {
-		return err
-	}
-	if _, err := cw.WriteString(string("index")); err != nil {
-		return err
-	}
+		if len("index") > 8192 {
+			return xerrors.Errorf("Value in field \"index\" was too long")
+		}
 
-	if err := cbg.WriteCid(cw, t.Index); err != nil {
-		return xerrors.Errorf("failed to write cid field t.Index: %w", err)
-	}
+		if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("index"))); err != nil {
+			return err
+		}
+		if _, err := cw.WriteString(string("index")); err != nil {
+			return err
+		}
 
+		if t.Index == nil {
+			if _, err := cw.Write(cbg.CborNull); err != nil {
+				return err
+			}
+		} else {
+			if err := cbg.WriteCid(cw, *t.Index); err != nil {
+				return xerrors.Errorf("failed to write cid field t.Index: %w", err)
+			}
+		}
+
+	}
 	return nil
 }
 
@@ -846,12 +885,22 @@ func (t *ListUploadItem) UnmarshalCBOR(r io.Reader) (err error) {
 
 			{
 
-				c, err := cbg.ReadCid(cr)
+				b, err := cr.ReadByte()
 				if err != nil {
-					return xerrors.Errorf("failed to read cid field t.Index: %w", err)
+					return err
 				}
+				if b != cbg.CborNull[0] {
+					if err := cr.UnreadByte(); err != nil {
+						return err
+					}
 
-				t.Index = c
+					c, err := cbg.ReadCid(cr)
+					if err != nil {
+						return xerrors.Errorf("failed to read cid field t.Index: %w", err)
+					}
+
+					t.Index = &c
+				}
 
 			}
 

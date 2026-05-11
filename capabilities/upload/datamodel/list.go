@@ -14,6 +14,6 @@ type ListOKModel struct {
 }
 
 type ListUploadItem struct {
-	Root  cid.Cid `cborgen:"root" dagjsongen:"root"`
-	Index cid.Cid `cborgen:"index" dagjsongen:"index"`
+	Root  cid.Cid  `cborgen:"root" dagjsongen:"root"`
+	Index *cid.Cid `cborgen:"index,omitempty" dagjsongen:"index,omitempty"`
 }
