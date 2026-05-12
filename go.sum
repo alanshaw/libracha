@@ -8,6 +8,8 @@ github.com/fil-forge/ucantone v0.0.0-20260505091407-736de689fa66 h1:avaCKf+0prLh
 github.com/fil-forge/ucantone v0.0.0-20260505091407-736de689fa66/go.mod h1:vqgVEsy6LEEsY24Zyjxem0vSofj1XTIx29GbV635f+I=
 github.com/fil-forge/ucantone v0.0.0-20260512002446-bb9f308fe24f h1:uVyJlqoy69TCCk4O/6mVoYL0JoT43rOik8oNwtrN9bE=
 github.com/fil-forge/ucantone v0.0.0-20260512002446-bb9f308fe24f/go.mod h1:vqgVEsy6LEEsY24Zyjxem0vSofj1XTIx29GbV635f+I=
+github.com/fil-forge/ucantone v0.0.0-20260512173820-ea7128569686 h1:Weu36rT9cQrmM41qX1EL3ML1K1a+bdidVGacy75HSro=
+github.com/fil-forge/ucantone v0.0.0-20260512173820-ea7128569686/go.mod h1:vqgVEsy6LEEsY24Zyjxem0vSofj1XTIx29GbV635f+I=
 github.com/gobwas/glob v0.2.3 h1:A4xDbljILXROh+kObIiy5kIaPYD8e96x1tgBhUI5J+Y=
 github.com/gobwas/glob v0.2.3/go.mod h1:d3Ez4x06l9bZtSvzIay5+Yzi0fmZzPgnTbPcKjJAkT8=
 github.com/ipfs/go-cid v0.6.1 h1:T5TnNb08+ueovG76Z5gx1L4Y7QOaGTXHg1F6raWFxIc=
