@@ -7,7 +7,6 @@ import (
 	"slices"
 
 	dm "github.com/fil-forge/libforge/blobindex/datamodel"
-	"github.com/fil-forge/ucantone/errors"
 	blocks "github.com/ipfs/go-block-format"
 	"github.com/ipfs/go-cid"
 	"github.com/ipld/go-car"
@@ -123,18 +122,14 @@ func (sdi *MapShardedDagIndex) Archive() (io.Reader, error) {
 	return Archive(sdi)
 }
 
-const UnknownFormatErrorName = "UnknownFormat"
-
 // NewUnknownFormatError returns an error for an unknown format.
 func NewUnknownFormatError(reason string, args ...any) error {
-	return errors.New(UnknownFormatErrorName, fmt.Sprintf("unknown format: %s", reason), args...)
+	return fmt.Errorf(fmt.Sprintf("unknown format: %s", reason), args...)
 }
-
-const DecodeFailureErrorName = "DecodeFailure"
 
 // NewDecodeFailureError returns an error for a decode failure.
 func NewDecodeFailureError(reason string, args ...any) error {
-	return errors.New(DecodeFailureErrorName, fmt.Sprintf("decode failure: %s", reason), args...)
+	return fmt.Errorf(fmt.Sprintf("decode failure: %s", reason), args...)
 }
 
 // Archive writes a ShardedDagIndex to a CAR file
