@@ -11,7 +11,7 @@ type MultihashMap[T any] interface {
 	bytemap.ByteMap[mh.Multihash, T]
 }
 
-// Range describes an start and end byte offset within a shard (inclusive).
+// Range describes a start and end byte offset within a shard (inclusive).
 type Range = dm.RangeModel
 
 // ShardedDagIndex is a blob index for a DAG stored over one or more shards.
