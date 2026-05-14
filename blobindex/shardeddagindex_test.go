@@ -1,7 +1,7 @@
 package blobindex_test
 
 import (
-	"io"
+	"bytes"
 	"math/rand/v2"
 	"testing"
 
@@ -59,10 +59,11 @@ func TestFromToArchive(t *testing.T) {
 	}
 
 	t.Run("round trip", func(t *testing.T) {
-		r, err := index.Archive()
+		var buf bytes.Buffer
+		err := index.Archive(&buf)
 		require.NoError(t, err)
 
-		newIndex, err := blobindex.Extract(r)
+		newIndex, err := blobindex.Extract(&buf)
 		require.NoError(t, err)
 
 		// ensure all the data is in the new index
@@ -101,8 +102,12 @@ func TestFromToArchive(t *testing.T) {
 			}
 		}
 
-		idxArchive := testutil.Must(io.ReadAll(testutil.Must(index.Archive())(t)))(t)
-		idx1Archive := testutil.Must(io.ReadAll(testutil.Must(index1.Archive())(t)))(t)
-		require.Equal(t, idxArchive, idx1Archive)
+		var buf1, buf2 bytes.Buffer
+		err := index.Archive(&buf1)
+		require.NoError(t, err)
+		err = index1.Archive(&buf2)
+		require.NoError(t, err)
+
+		require.Equal(t, buf1.Bytes(), buf2.Bytes())
 	})
 }

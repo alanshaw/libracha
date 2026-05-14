@@ -6,11 +6,9 @@ import (
 	"io"
 	"slices"
 
+	"github.com/fil-forge/automobile"
 	dm "github.com/fil-forge/libforge/blobindex/datamodel"
-	blocks "github.com/ipfs/go-block-format"
 	"github.com/ipfs/go-cid"
-	"github.com/ipld/go-car"
-	"github.com/ipld/go-car/util"
 	mh "github.com/multiformats/go-multihash"
 )
 
@@ -30,27 +28,20 @@ type indexCar struct {
 }
 
 func decodeIndexCar(r io.Reader) (indexCar, error) {
-	rd, err := car.NewCarReader(r)
+	roots, blocks, err := automobile.Decode(r)
 	if err != nil {
-		return indexCar{}, fmt.Errorf("creating CAR reader: %w", err)
+		return indexCar{}, fmt.Errorf("decoding index CAR: %w", err)
 	}
-	if len(rd.Header.Roots) != 1 {
-		return indexCar{}, fmt.Errorf("expected exactly one root, got: %d", len(rd.Header.Roots))
+	if len(roots) != 1 {
+		return indexCar{}, fmt.Errorf("expected exactly one root, got: %d", len(roots))
 	}
-	codec := rd.Header.Roots[0].Prefix().Codec
+	codec := roots[0].Prefix().Codec
 	if codec != cid.DagCBOR {
 		return indexCar{}, fmt.Errorf("unexpected root CID codec: %x", codec)
 	}
-	data := indexCar{root: rd.Header.Roots[0], blocks: map[cid.Cid][]byte{}}
-	for {
-		blk, err := rd.Next()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return indexCar{}, fmt.Errorf("reading next block: %w", err)
-		}
-		data.blocks[blk.Cid()] = blk.RawData()
+	data := indexCar{root: roots[0], blocks: map[cid.Cid][]byte{}}
+	for _, blk := range blocks {
+		data.blocks[blk.Link] = blk.Data
 	}
 	if _, ok := data.blocks[data.root]; !ok {
 		return indexCar{}, fmt.Errorf("missing root block: %s", data.root)
@@ -118,8 +109,8 @@ func (sdi *MapShardedDagIndex) SetSlice(shard mh.Multihash, slice mh.Multihash, 
 	index.Set(slice, byteRange)
 }
 
-func (sdi *MapShardedDagIndex) Archive() (io.Reader, error) {
-	return Archive(sdi)
+func (sdi *MapShardedDagIndex) Archive(w io.Writer) error {
+	return Archive(sdi, w)
 }
 
 // NewUnknownFormatError returns an error for an unknown format.
@@ -133,7 +124,7 @@ func NewDecodeFailureError(reason error) error {
 }
 
 // Archive writes a ShardedDagIndex to a CAR file
-func Archive(index ShardedDagIndex) (io.Reader, error) {
+func Archive(index ShardedDagIndex, writer io.Writer) error {
 	// assemble blob index shards
 	blobIndexDatas, err := toList(index.Shards(), func(shardHash mh.Multihash, shard MultihashMap[Range]) (dm.BlobIndexModel, error) {
 		// assemble blob slices
@@ -155,13 +146,13 @@ func Archive(index ShardedDagIndex) (io.Reader, error) {
 		}, nil
 	})
 	if err != nil {
-		return nil, err
+		return err
 	}
 	// sort blob index shards
 	if err := sortByDigest(blobIndexDatas, func(bim dm.BlobIndexModel) mh.Multihash {
 		return bim.Digest
 	}); err != nil {
-		return nil, err
+		return err
 	}
 
 	// initialize root sharded dag index
@@ -169,23 +160,19 @@ func Archive(index ShardedDagIndex) (io.Reader, error) {
 		Shards: make([]cid.Cid, 0, len(blobIndexDatas)),
 	}
 	// encode blob index shards to blocks and add links to sharded dag index
-	blks := make([]blocks.Block, 0, len(blobIndexDatas)+1)
+	blks := make([]automobile.Block, 0, len(blobIndexDatas)+1)
 	for _, shard := range blobIndexDatas {
 		var buf bytes.Buffer
 		err := shard.MarshalCBOR(&buf)
 		if err != nil {
-			return nil, err
+			return err
 		}
 		b := buf.Bytes()
 		l, err := cid.V1Builder{Codec: cid.DagCBOR, MhType: mh.SHA2_256}.Sum(b)
 		if err != nil {
-			return nil, err
+			return err
 		}
-		blk, err := blocks.NewBlockWithCid(b, l)
-		if err != nil {
-			return nil, err
-		}
-		blks = append(blks, blk)
+		blks = append(blks, automobile.Block{Data: b, Link: l})
 		shardedDagIndex.Shards = append(shardedDagIndex.Shards, l)
 	}
 
@@ -193,34 +180,24 @@ func Archive(index ShardedDagIndex) (io.Reader, error) {
 	model := dm.ShardedDagIndexModel{DagO_1: &shardedDagIndex}
 	var rootData bytes.Buffer
 	if err := model.MarshalCBOR(&rootData); err != nil {
-		return nil, err
+		return err
 	}
 	root, err := cid.V1Builder{Codec: cid.DagCBOR, MhType: mh.SHA2_256}.Sum(rootData.Bytes())
 	if err != nil {
-		return nil, err
+		return err
 	}
-	rootBlock, err := blocks.NewBlockWithCid(rootData.Bytes(), root)
-	if err != nil {
-		return nil, err
-	}
+	rootBlock := automobile.Block{Link: root, Data: rootData.Bytes()}
 
-	reader, writer := io.Pipe()
-	go func() {
-		err := car.WriteHeader(&car.CarHeader{Roots: []cid.Cid{root}, Version: 1}, writer)
-		if err != nil {
-			writer.CloseWithError(fmt.Errorf("writing CAR header: %w", err))
-			return
+	carWriter := automobile.NewWriter(writer)
+	if err := carWriter.WriteHeader([]cid.Cid{root}); err != nil {
+		return fmt.Errorf("writing CAR header: %w", err)
+	}
+	for _, blk := range append(blks, rootBlock) {
+		if err := carWriter.WriteBlock(blk); err != nil {
+			return fmt.Errorf("writing CAR block: %w", err)
 		}
-		for _, block := range append(blks, rootBlock) {
-			err = util.LdWrite(writer, block.Cid().Bytes(), block.RawData())
-			if err != nil {
-				writer.CloseWithError(fmt.Errorf("writing CAR blocks: %w", err))
-				return
-			}
-		}
-		writer.Close()
-	}()
-	return reader, nil
+	}
+	return nil
 }
 
 func toList[E, T any](mhm MultihashMap[T], newElem func(mh.Multihash, T) (E, error)) ([]E, error) {
