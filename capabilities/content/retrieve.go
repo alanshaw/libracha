@@ -11,6 +11,7 @@ const RetrieveCommand = "/content/retrieve"
 type (
 	RetrieveArguments = dm.RetrieveArgumentsModel
 	Blob              = dm.BlobModel
+	Range             = dm.RangeModel
 	RetrieveOK        = cdm.UnitModel
 )
 
