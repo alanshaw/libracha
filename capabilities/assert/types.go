@@ -19,8 +19,8 @@ type LocationArguments struct {
 }
 
 type Range struct {
-	Offset uint64  `cborgen:"offset" dagjsongen:"offset"`
-	Length *uint64 `cborgen:"length,omitempty" dagjsongen:"length,omitempty"`
+	Start uint64  `cborgen:"start" dagjsongen:"start"`
+	End   *uint64 `cborgen:"end,omitempty" dagjsongen:"end,omitempty"`
 }
 
 type EqualsArguments struct {

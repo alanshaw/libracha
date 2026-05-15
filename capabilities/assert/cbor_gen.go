@@ -374,7 +374,7 @@ func (t *Range) MarshalCBOR(w io.Writer) error {
 	cw := cbg.NewCborWriter(w)
 	fieldCount := 2
 
-	if t.Length == nil {
+	if t.End == nil {
 		fieldCount--
 	}
 
@@ -382,45 +382,45 @@ func (t *Range) MarshalCBOR(w io.Writer) error {
 		return err
 	}
 
-	// t.Length (uint64) (uint64)
-	if t.Length != nil {
+	// t.End (uint64) (uint64)
+	if t.End != nil {
 
-		if len("length") > 8192 {
-			return xerrors.Errorf("Value in field \"length\" was too long")
+		if len("end") > 8192 {
+			return xerrors.Errorf("Value in field \"end\" was too long")
 		}
 
-		if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("length"))); err != nil {
+		if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("end"))); err != nil {
 			return err
 		}
-		if _, err := cw.WriteString(string("length")); err != nil {
+		if _, err := cw.WriteString(string("end")); err != nil {
 			return err
 		}
 
-		if t.Length == nil {
+		if t.End == nil {
 			if _, err := cw.Write(cbg.CborNull); err != nil {
 				return err
 			}
 		} else {
-			if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(*t.Length)); err != nil {
+			if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(*t.End)); err != nil {
 				return err
 			}
 		}
 
 	}
 
-	// t.Offset (uint64) (uint64)
-	if len("offset") > 8192 {
-		return xerrors.Errorf("Value in field \"offset\" was too long")
+	// t.Start (uint64) (uint64)
+	if len("start") > 8192 {
+		return xerrors.Errorf("Value in field \"start\" was too long")
 	}
 
-	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("offset"))); err != nil {
+	if err := cw.WriteMajorTypeHeader(cbg.MajTextString, uint64(len("start"))); err != nil {
 		return err
 	}
-	if _, err := cw.WriteString(string("offset")); err != nil {
+	if _, err := cw.WriteString(string("start")); err != nil {
 		return err
 	}
 
-	if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(t.Offset)); err != nil {
+	if err := cw.WriteMajorTypeHeader(cbg.MajUnsignedInt, uint64(t.Start)); err != nil {
 		return err
 	}
 
@@ -452,7 +452,7 @@ func (t *Range) UnmarshalCBOR(r io.Reader) (err error) {
 
 	n := extra
 
-	nameBuf := make([]byte, 6)
+	nameBuf := make([]byte, 5)
 	for i := uint64(0); i < n; i++ {
 		nameLen, ok, err := cbg.ReadFullStringIntoBuf(cr, nameBuf, 8192)
 		if err != nil {
@@ -468,8 +468,8 @@ func (t *Range) UnmarshalCBOR(r io.Reader) (err error) {
 		}
 
 		switch string(nameBuf[:nameLen]) {
-		// t.Length (uint64) (uint64)
-		case "length":
+		// t.End (uint64) (uint64)
+		case "end":
 
 			{
 
@@ -489,12 +489,12 @@ func (t *Range) UnmarshalCBOR(r io.Reader) (err error) {
 						return fmt.Errorf("wrong type for uint64 field")
 					}
 					typed := uint64(extra)
-					t.Length = &typed
+					t.End = &typed
 				}
 
 			}
-			// t.Offset (uint64) (uint64)
-		case "offset":
+			// t.Start (uint64) (uint64)
+		case "start":
 
 			{
 
@@ -505,7 +505,7 @@ func (t *Range) UnmarshalCBOR(r io.Reader) (err error) {
 				if maj != cbg.MajUnsignedInt {
 					return fmt.Errorf("wrong type for uint64 field")
 				}
-				t.Offset = uint64(extra)
+				t.Start = uint64(extra)
 
 			}
 
