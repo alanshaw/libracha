@@ -546,7 +546,7 @@ func TestExtractDomainFromDID(t *testing.T) {
 		},
 		{
 			name:          "domain too long",
-			did:           "did:web:" + string(make([]byte, 254)),
+			did:           "did:web:" + strings.Repeat("a", 254),
 			expectError:   true,
 			errorContains: "domain too long",
 		},

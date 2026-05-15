@@ -17,7 +17,10 @@ type TieredResolver struct {
 	Tiers []DIDVerifierResolverFunc
 }
 
-func (r *TieredResolver) ResolveDIDKey(ctx context.Context, input did.DID) (ucan.Verifier, error) {
+func (r *TieredResolver) Resolve(ctx context.Context, input did.DID) (ucan.Verifier, error) {
+	if len(r.Tiers) == 0 {
+		return nil, verrs.NewDIDKeyResolutionError(input, fmt.Errorf("no resolvers configured"))
+	}
 	var errs error
 	for _, tier := range r.Tiers {
 		verifier, err := tier(ctx, input)
@@ -27,5 +30,5 @@ func (r *TieredResolver) ResolveDIDKey(ctx context.Context, input did.DID) (ucan
 		}
 		return verifier, nil
 	}
-	return nil, verrs.NewDIDKeyResolutionError(input, fmt.Errorf("not resolvable by any tier: %w", errs))
+	return nil, verrs.NewDIDKeyResolutionError(input, fmt.Errorf("not resolvable by any resolver: %w", errs))
 }

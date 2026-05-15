@@ -14,17 +14,18 @@ import (
 // DelegationMatcherFunc finds all delegations matching the given audience,
 // command, and subject.
 //
-// The subject parameter MUST not be nil, but matching delegations MAY include
-// powerline delegations (with nil subject) and delegations where command is a
-// matching parent of the passed command e.g. if passed command is "/read/file",
-// delegations with command "/read", and "/" may be returned.
+// The subject parameter MUST not be [did.Undef], but matching delegations MAY
+// include powerline delegations (with [did.Undef] subject) and delegations
+// where command is a matching parent of the passed command e.g. if passed
+// command is "/read/file", delegations with command "/read", and "/" may be
+// returned.
 type DelegationMatcherFunc func(ctx context.Context, aud did.DID, cmd ucan.Command, sub did.DID) iter.Seq2[ucan.Delegation, error]
 
 // DelegationListerFunc lists delegations for the given audience, command, and
 // subject. It differs from [DelegationMatcherFunc] in that it only retrieves
 // delegations for the EXACT audience, command and subject.
 //
-// Note: the subject parameter MAY be nil to indicate powerline.
+// Note: the subject parameter MAY be [did.Undef] to indicate powerline.
 type DelegationListerFunc func(ctx context.Context, aud did.DID, cmd ucan.Command, sub did.DID) iter.Seq2[ucan.Delegation, error]
 
 // NewDelegationMatcher creates a simple delegation matcher that queries the

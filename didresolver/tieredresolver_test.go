@@ -36,7 +36,7 @@ func TestTieredResolver_ResolveDIDKey(t *testing.T) {
 			Tiers: []didresolver.DIDVerifierResolverFunc{tier1.ResolveDIDKey, tier2.ResolveDIDKey},
 		}
 
-		result, err := resolver.ResolveDIDKey(t.Context(), didWeb)
+		result, err := resolver.Resolve(t.Context(), didWeb)
 		require.NoError(t, err)
 		require.Equal(t, didKey, result)
 		require.Equal(t, 1, tier1.getCallCount())
@@ -68,7 +68,7 @@ func TestTieredResolver_ResolveDIDKey(t *testing.T) {
 			},
 		}
 
-		result, err := resolver.ResolveDIDKey(t.Context(), didWeb)
+		result, err := resolver.Resolve(t.Context(), didWeb)
 		require.NoError(t, err)
 		require.Equal(t, didKey, result)
 		require.Equal(t, 1, tier1.getCallCount())
@@ -92,11 +92,11 @@ func TestTieredResolver_ResolveDIDKey(t *testing.T) {
 			Tiers: []didresolver.DIDVerifierResolverFunc{tier1.ResolveDIDKey, tier2.ResolveDIDKey},
 		}
 
-		result, err := resolver.ResolveDIDKey(t.Context(), didWeb)
+		result, err := resolver.Resolve(t.Context(), didWeb)
 		require.Error(t, err)
 		require.Nil(t, result)
 		require.Contains(t, err.Error(), "unable to resolve")
-		require.Contains(t, err.Error(), "not resolvable by any tier")
+		require.Contains(t, err.Error(), "not resolvable by any resolver")
 		require.Contains(t, err.Error(), "tier1 specific error")
 		require.Contains(t, err.Error(), "tier2 specific error")
 		require.Equal(t, 1, tier1.getCallCount())
@@ -108,11 +108,11 @@ func TestTieredResolver_ResolveDIDKey(t *testing.T) {
 			Tiers: []didresolver.DIDVerifierResolverFunc{},
 		}
 
-		result, err := resolver.ResolveDIDKey(t.Context(), didWeb)
+		result, err := resolver.Resolve(t.Context(), didWeb)
 		require.Error(t, err)
 		require.Nil(t, result)
 		require.Contains(t, err.Error(), "unable to resolve")
-		require.Contains(t, err.Error(), "not resolvable by any tier")
+		require.Contains(t, err.Error(), "no resolvers configured")
 	})
 
 	t.Run("works with a single tier", func(t *testing.T) {
@@ -126,7 +126,7 @@ func TestTieredResolver_ResolveDIDKey(t *testing.T) {
 			Tiers: []didresolver.DIDVerifierResolverFunc{tier1.ResolveDIDKey},
 		}
 
-		result, err := resolver.ResolveDIDKey(t.Context(), didWeb)
+		result, err := resolver.Resolve(t.Context(), didWeb)
 		require.NoError(t, err)
 		require.Equal(t, didKey, result)
 		require.Equal(t, 1, tier1.getCallCount())
@@ -155,19 +155,19 @@ func TestTieredResolver_ResolveDIDKey(t *testing.T) {
 		}
 
 		// Resolves via the first tier
-		resA, err := resolver.ResolveDIDKey(t.Context(), didA)
+		resA, err := resolver.Resolve(t.Context(), didA)
 		require.NoError(t, err)
 		require.Equal(t, keyA, resA)
 
 		// Falls through to the second tier
-		resB, err := resolver.ResolveDIDKey(t.Context(), didB)
+		resB, err := resolver.Resolve(t.Context(), didB)
 		require.NoError(t, err)
 		require.Equal(t, keyB, resB)
 
-		// Not in any tier
-		_, err = resolver.ResolveDIDKey(t.Context(), didC)
+		// Not resolvable by any tier
+		_, err = resolver.Resolve(t.Context(), didC)
 		require.Error(t, err)
-		require.Contains(t, err.Error(), "not resolvable by any tier")
+		require.Contains(t, err.Error(), "not resolvable by any resolver")
 	})
 
 	t.Run("propagates context to tiers", func(t *testing.T) {
@@ -189,7 +189,7 @@ func TestTieredResolver_ResolveDIDKey(t *testing.T) {
 			Tiers: []didresolver.DIDVerifierResolverFunc{tier1.ResolveDIDKey},
 		}
 
-		_, err := resolver.ResolveDIDKey(ctx, didWeb)
+		_, err := resolver.Resolve(ctx, didWeb)
 		require.NoError(t, err)
 		require.Equal(t, "value", seen)
 	})
