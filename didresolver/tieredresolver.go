@@ -32,3 +32,7 @@ func (r *TieredResolver) Resolve(ctx context.Context, input did.DID) (ucan.Verif
 	}
 	return nil, verrs.NewDIDKeyResolutionError(input, fmt.Errorf("not resolvable by any resolver: %w", errs))
 }
+
+func NewTieredResolver(tiers ...DIDVerifierResolverFunc) *TieredResolver {
+	return &TieredResolver{Tiers: tiers}
+}
