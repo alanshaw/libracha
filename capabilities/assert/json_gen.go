@@ -387,25 +387,25 @@ func (t *Range) MarshalDagJSON(w io.Writer) error {
 	}
 	written := 0
 
-	// t.Length (uint64) (uint64)
-	if t.Length != nil {
-		if len("length") > 8192 {
-			return fmt.Errorf("string in field \"length\" was too long")
+	// t.End (uint64) (uint64)
+	if t.End != nil {
+		if len("end") > 8192 {
+			return fmt.Errorf("string in field \"end\" was too long")
 		}
-		if err := jw.WriteString(string("length")); err != nil {
-			return fmt.Errorf("writing string for field \"length\": %w", err)
+		if err := jw.WriteString(string("end")); err != nil {
+			return fmt.Errorf("writing string for field \"end\": %w", err)
 		}
 		if err := jw.WriteObjectColon(); err != nil {
 			return err
 		}
 
-		if t.Length == nil {
+		if t.End == nil {
 			if err := jw.WriteNull(); err != nil {
-				return fmt.Errorf("writing null for field t.Length: %w", err)
+				return fmt.Errorf("writing null for field t.End: %w", err)
 			}
 		} else {
-			if err := jw.WriteUint64(uint64(*t.Length)); err != nil {
-				return fmt.Errorf("writing uint64 for field t.Length: %w", err)
+			if err := jw.WriteUint64(uint64(*t.End)); err != nil {
+				return fmt.Errorf("writing uint64 for field t.End: %w", err)
 			}
 		}
 
@@ -417,19 +417,19 @@ func (t *Range) MarshalDagJSON(w io.Writer) error {
 		}
 	}
 
-	// t.Offset (uint64) (uint64)
-	if len("offset") > 8192 {
-		return fmt.Errorf("string in field \"offset\" was too long")
+	// t.Start (uint64) (uint64)
+	if len("start") > 8192 {
+		return fmt.Errorf("string in field \"start\" was too long")
 	}
-	if err := jw.WriteString(string("offset")); err != nil {
-		return fmt.Errorf("writing string for field \"offset\": %w", err)
+	if err := jw.WriteString(string("start")); err != nil {
+		return fmt.Errorf("writing string for field \"start\": %w", err)
 	}
 	if err := jw.WriteObjectColon(); err != nil {
 		return err
 	}
 
-	if err := jw.WriteUint64(uint64(t.Offset)); err != nil {
-		return fmt.Errorf("writing uint64 for field t.Offset: %w", err)
+	if err := jw.WriteUint64(uint64(t.Start)); err != nil {
+		return fmt.Errorf("writing uint64 for field t.Start: %w", err)
 	}
 
 	written++
@@ -472,30 +472,30 @@ func (t *Range) UnmarshalDagJSON(r io.Reader) (err error) {
 			}
 			switch name {
 
-			// t.Length (uint64) (uint64)
-			case "length":
+			// t.End (uint64) (uint64)
+			case "end":
 				{
 
 					nval, err := jr.ReadNumberAsUint64OrNull()
 					if err != nil {
-						return fmt.Errorf("reading uint64 or null for field t.Length: %w", err)
+						return fmt.Errorf("reading uint64 or null for field t.End: %w", err)
 					}
 					if nval != nil {
 						typed := uint64(*nval)
-						t.Length = &typed
+						t.End = &typed
 					}
 
 				}
 
-				// t.Offset (uint64) (uint64)
-			case "offset":
+				// t.Start (uint64) (uint64)
+			case "start":
 				{
 
 					nval, err := jr.ReadNumberAsUint64()
 					if err != nil {
-						return fmt.Errorf("reading uint64 for field t.Offset: %w", err)
+						return fmt.Errorf("reading uint64 for field t.Start: %w", err)
 					}
-					t.Offset = uint64(nval)
+					t.Start = uint64(nval)
 
 				}
 			default:
