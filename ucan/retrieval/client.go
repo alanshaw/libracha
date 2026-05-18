@@ -1,6 +1,7 @@
 package retrieval
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
 
@@ -18,11 +19,12 @@ type httpHeaderClientConfig struct {
 	listeners []client.EventListener
 }
 
-type ClientOption func(*httpHeaderClientConfig)
+type ClientOption func(*httpHeaderClientConfig) error
 
 func WithHTTPClient(client *http.Client) ClientOption {
-	return func(cfg *httpHeaderClientConfig) {
+	return func(cfg *httpHeaderClientConfig) error {
 		cfg.client = client
+		return nil
 	}
 }
 
@@ -30,16 +32,21 @@ func WithHTTPClient(client *http.Client) ClientOption {
 // "X-UCAN-Container" header is reserved for encoding the UCAN invocation and
 // should not be included in the provided headers.
 func WithHTTPHeaders(headers http.Header) ClientOption {
-	return func(cfg *httpHeaderClientConfig) {
+	return func(cfg *httpHeaderClientConfig) error {
+		if headers.Get(HTTPHeaderName) != "" {
+			return fmt.Errorf("cannot set %q header with WithHTTPHeaders, it is reserved for encoding the UCAN invocation", HTTPHeaderName)
+		}
 		cfg.headers = headers
+		return nil
 	}
 }
 
 // WithEventListener adds an event listener to the HTTP client for monitoring
 // requests and responses.
 func WithEventListener(listener client.EventListener) ClientOption {
-	return func(cfg *httpHeaderClientConfig) {
+	return func(cfg *httpHeaderClientConfig) error {
 		cfg.listeners = append(cfg.listeners, listener)
+		return nil
 	}
 }
 
@@ -49,7 +56,9 @@ func NewClient(serviceURL *url.URL, options ...ClientOption) (*HTTPHeaderClient,
 		client: http.DefaultClient,
 	}
 	for _, opt := range options {
-		opt(&cfg)
+		if err := opt(&cfg); err != nil {
+			return nil, err
+		}
 	}
 	c := client.New(&httpTransport{cfg.client, cfg.headers, serviceURL}, codec)
 	c.Listeners = cfg.listeners
