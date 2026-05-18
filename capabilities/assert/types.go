@@ -11,6 +11,10 @@ type IndexArguments struct {
 	Index cid.Cid `cborgen:"index" dagjsongen:"index"`
 }
 
+type IndexMetadata struct {
+	RetrievalAuth []cid.Cid `cborgen:"retrievalAuth" dagjsongen:"retrievalAuth"`
+}
+
 type LocationArguments struct {
 	Space    did.DID                `cborgen:"space" dagjsongen:"space"`
 	Content  multihash.Multihash    `cborgen:"content" dagjsongen:"content"`
