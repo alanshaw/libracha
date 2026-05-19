@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"iter"
 
-	"github.com/fil-forge/libforge/capabilities/ucan/attest"
+	"github.com/fil-forge/libforge/commands/ucan/attest"
 	"github.com/fil-forge/ucantone/did"
 	"github.com/fil-forge/ucantone/ucan"
 	"github.com/fil-forge/ucantone/varsig/algorithm/nonstandard"
