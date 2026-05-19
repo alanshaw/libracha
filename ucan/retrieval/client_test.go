@@ -27,7 +27,7 @@ func startTestServer(t *testing.T, handler execution.HandlerFunc) (*url.URL, pri
 	t.Helper()
 	service := testutil.RandomSigner(t)
 	s := retrieval.NewServer(service)
-	s.Handle(ucan.Command(contentRetrieve), handler)
+	s.Handle(contentRetrieve.Command, handler)
 	httpServer := httptest.NewServer(s)
 	t.Cleanup(httpServer.Close)
 	u, err := url.Parse(httpServer.URL)

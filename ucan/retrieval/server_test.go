@@ -12,7 +12,6 @@ import (
 	"github.com/fil-forge/ucantone/execution"
 	"github.com/fil-forge/ucantone/ipld/datamodel"
 	"github.com/fil-forge/ucantone/testutil"
-	"github.com/fil-forge/ucantone/ucan"
 	"github.com/fil-forge/ucantone/ucan/container"
 	"github.com/fil-forge/ucantone/ucan/invocation"
 	"github.com/fil-forge/ucantone/validator/bindcom"
@@ -36,7 +35,7 @@ func TestServer(t *testing.T) {
 	)
 
 	s := retrieval.NewServer(service)
-	s.Handle(ucan.Command(contentRetrieve), func(req execution.Request, res execution.Response) error {
+	s.Handle(contentRetrieve.Command, func(req execution.Request, res execution.Response) error {
 		hcReq, ok := req.Metadata().(*retrieval.HTTPHeaderRequestContainer)
 		require.True(t, ok, "expected HTTPHeaderRequestContainer as request metadata")
 		capturedMethod = hcReq.Method
