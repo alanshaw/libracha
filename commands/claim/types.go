@@ -8,5 +8,6 @@ type CacheArguments struct {
 }
 
 type Provider struct {
+	// Addresses are byte encoded multiaddrs of the provider.
 	Addresses [][]byte `cborgen:"addresses" dagjsongen:"addresses"`
 }
