@@ -4,4 +4,4 @@ package blob
 
 import "github.com/fil-forge/libforge/commands"
 
-var Add = commands.MustParse[*AddArguments]("/blob/add")
+var Add = commands.MustParse[*AddArguments, *AddOK]("/blob/add")

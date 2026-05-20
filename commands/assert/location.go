@@ -6,4 +6,4 @@ import "github.com/fil-forge/libforge/commands"
 
 type LocationOK = commands.Unit
 
-var Location = commands.MustParse[*LocationArguments]("/assert/location")
+var Location = commands.MustParse[*LocationArguments, *LocationOK]("/assert/location")

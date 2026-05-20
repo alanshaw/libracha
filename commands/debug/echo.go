@@ -6,4 +6,4 @@ import "github.com/fil-forge/libforge/commands"
 
 type EchoOK = EchoArguments
 
-var Echo = commands.MustParse[*EchoArguments]("/debug/echo")
+var Echo = commands.MustParse[*EchoArguments, *EchoOK]("/debug/echo")

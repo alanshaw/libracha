@@ -18,7 +18,7 @@ type GrantOK = ClaimOK
 // Grant can be invoked by an agent to request that a set of capabilities be
 // granted directly. Unlike Request -> Confirm, Grant is one-shot: the
 // executor decides immediately whether to issue the delegation.
-var Grant = commands.MustParse[*GrantArguments](GrantCommand)
+var Grant = commands.MustParse[*GrantArguments, *GrantOK](GrantCommand)
 
 const (
 	UnknownAbilityErrorName    = "UnknownAbility"

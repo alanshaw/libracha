@@ -9,7 +9,7 @@ import (
 
 type AddOK = commands.Unit
 
-var Add = commands.MustParse[*AddArguments]("/index/add")
+var Add = commands.MustParse[*AddArguments, *AddOK]("/index/add")
 
 const IndexNotFoundErrorName = "IndexNotFound"
 

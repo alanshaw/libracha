@@ -8,7 +8,7 @@ type DelegateOK = commands.Unit
 
 // Delegate can be invoked by an agent to delegate a set of capabilities that
 // may be subsequently claimed by another agent.
-var Delegate = commands.MustParse[*DelegateArguments]("/access/delegate")
+var Delegate = commands.MustParse[*DelegateArguments, *DelegateOK]("/access/delegate")
 
 const (
 	DelegationNotFoundErrorName  = "DelegationNotFound"

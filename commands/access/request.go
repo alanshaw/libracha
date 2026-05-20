@@ -11,7 +11,7 @@ const RequestMetaKey = "accessRequest"
 
 // Request can be invoked by an agent to request set of capabilities from the
 // account.
-var Request = commands.MustParse[*RequestArguments]("/access/request")
+var Request = commands.MustParse[*RequestArguments, *RequestOK]("/access/request")
 
 const (
 	InvalidAuthorizationAccountErrorName  = "InvalidAuthorizationAccount"

@@ -18,4 +18,4 @@ import "github.com/fil-forge/libforge/commands"
 // transferred and stored the blob. The number of `/blob/replica/allocate` and
 // `/blob/replica/transfer` tasks corresponds directly to number of replicas
 // requested.
-var Replicate = commands.MustParse[*ReplicateArguments]("/blob/replicate")
+var Replicate = commands.MustParse[*ReplicateArguments, *ReplicateOK]("/blob/replicate")

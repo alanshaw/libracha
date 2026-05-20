@@ -6,4 +6,4 @@ import "github.com/fil-forge/libforge/commands"
 
 type RemoveOK = commands.Unit
 
-var Remove = commands.MustParse[*RemoveArguments]("/blob/remove")
+var Remove = commands.MustParse[*RemoveArguments, *RemoveOK]("/blob/remove")

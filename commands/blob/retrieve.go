@@ -12,4 +12,4 @@ import "github.com/fil-forge/libforge/commands"
 // For user-facing retrieval that requires an allocation in a specific space
 // see `libforge/commands/content.Retrieve` (the `/content/retrieve`
 // capability).
-var Retrieve = commands.MustParse[*RetrieveArguments]("/blob/retrieve")
+var Retrieve = commands.MustParse[*RetrieveArguments, *RetrieveOK]("/blob/retrieve")

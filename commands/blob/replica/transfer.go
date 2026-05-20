@@ -4,4 +4,4 @@ package replica
 
 import "github.com/fil-forge/libforge/commands"
 
-var Transfer = commands.MustParse[*TransferArguments]("/blob/replica/transfer")
+var Transfer = commands.MustParse[*TransferArguments, *TransferOK]("/blob/replica/transfer")

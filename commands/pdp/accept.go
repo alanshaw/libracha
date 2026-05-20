@@ -4,4 +4,4 @@ package pdp
 
 import "github.com/fil-forge/libforge/commands"
 
-var Accept = commands.MustParse[*AcceptArguments]("/pdp/accept")
+var Accept = commands.MustParse[*AcceptArguments, *AcceptOK]("/pdp/accept")

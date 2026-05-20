@@ -6,4 +6,4 @@ import "github.com/fil-forge/libforge/commands"
 
 type PutOK = commands.Unit
 
-var Put = commands.MustParse[*PutArguments]("/http/put")
+var Put = commands.MustParse[*PutArguments, *PutOK]("/http/put")

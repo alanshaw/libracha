@@ -9,7 +9,7 @@ import (
 
 type ConcludeOK = commands.Unit
 
-var Conclude = commands.MustParse[*ConcludeArguments]("/ucan/conclude")
+var Conclude = commands.MustParse[*ConcludeArguments, *ConcludeOK]("/ucan/conclude")
 
 const ConclusionReceiptNotFoundErrorName = "ConclusionReceiptNotFound"
 

@@ -8,4 +8,4 @@ type ClaimArguments = commands.Unit
 
 // Claim can be invoked by an agent to claim a set of delegations from the
 // account.
-var Claim = commands.MustParse[*ClaimArguments]("/access/claim")
+var Claim = commands.MustParse[*ClaimArguments, *ClaimOK]("/access/claim")

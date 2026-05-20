@@ -9,4 +9,4 @@ import "github.com/fil-forge/libforge/commands"
 // `/content/retrieve` receipts. The tracking service responds by forking
 // a `/space/egress/consolidate` sub-invocation onto the receipt's
 // effects; the typed OK return is empty.
-var Track = commands.MustParse[*TrackArguments]("/space/egress/track")
+var Track = commands.MustParse[*TrackArguments, *TrackOK]("/space/egress/track")

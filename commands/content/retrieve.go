@@ -6,4 +6,4 @@ import "github.com/fil-forge/libforge/commands"
 
 type RetrieveOK = commands.Unit
 
-var Retrieve = commands.MustParse[*RetrieveArguments]("/content/retrieve")
+var Retrieve = commands.MustParse[*RetrieveArguments, *RetrieveOK]("/content/retrieve")

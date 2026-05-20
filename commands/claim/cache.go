@@ -6,4 +6,4 @@ import "github.com/fil-forge/libforge/commands"
 
 type CacheOK = commands.Unit
 
-var Cache = commands.MustParse[*CacheArguments]("/claim/cache")
+var Cache = commands.MustParse[*CacheArguments, *CacheOK]("/claim/cache")

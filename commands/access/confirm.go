@@ -17,7 +17,7 @@ type ConfirmOK = ClaimOK
 const ConfirmMetaKey = "accessConfirm"
 
 // Confirm can be invoked by an agent to confirm an access request.
-var Confirm = commands.MustParse[*ConfirmArguments]("/access/confirm")
+var Confirm = commands.MustParse[*ConfirmArguments, *ConfirmOK]("/access/confirm")
 
 const (
 	InvalidAccessConfirmSubjectErrorName = "InvalidAccessConfirmSubject"
