@@ -3,17 +3,13 @@ package replica
 import (
 	"github.com/fil-forge/ucantone/ucan/promise"
 	"github.com/ipfs/go-cid"
-	"github.com/multiformats/go-multihash"
-)
 
-type Blob struct {
-	Digest multihash.Multihash `cborgen:"digest"`
-	Size   uint64              `cborgen:"size"`
-}
+	"github.com/fil-forge/libforge/commands/blob"
+)
 
 type AllocateArguments struct {
 	// Blob is the blob to be allocated.
-	Blob Blob `cborgen:"blob"`
+	Blob blob.Blob `cborgen:"blob"`
 	// Site is a link to a location commitment indicating where the Blob must be
 	// fetched from.
 	Site cid.Cid `cborgen:"site"`
@@ -29,7 +25,7 @@ type AllocateOK struct {
 
 type TransferArguments struct {
 	// Blob is the blob to be transferred.
-	Blob Blob `cborgen:"blob"`
+	Blob blob.Blob `cborgen:"blob"`
 	// Site is a link to a location commitment indicating where the Blob must be
 	// fetched from.
 	Site cid.Cid `cborgen:"site"`

@@ -8,7 +8,6 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/fil-forge/libforge/ucan/retrieval"
 	"github.com/fil-forge/ucantone/execution"
 	"github.com/fil-forge/ucantone/ipld/datamodel"
 	"github.com/fil-forge/ucantone/testutil"
@@ -16,9 +15,11 @@ import (
 	"github.com/fil-forge/ucantone/ucan/invocation"
 	"github.com/fil-forge/ucantone/validator/bindcom"
 	"github.com/stretchr/testify/require"
+
+	"github.com/fil-forge/libforge/ucan/retrieval"
 )
 
-var contentRetrieve, _ = bindcom.Parse[datamodel.Map]("/content/retrieve")
+var contentRetrieve, _ = bindcom.Parse[*datamodel.Map]("/content/retrieve")
 
 func TestServer(t *testing.T) {
 	service := testutil.RandomSigner(t)
@@ -62,7 +63,7 @@ func TestServer(t *testing.T) {
 	inv, err := contentRetrieve.Invoke(
 		alice,
 		alice.DID(),
-		datamodel.Map{},
+		&datamodel.Map{},
 		invocation.WithAudience(service.DID()),
 	)
 	require.NoError(t, err)

@@ -16,7 +16,7 @@ func tag(path string) {
 	if err != nil {
 		panic(err)
 	}
-	if err := os.WriteFile(path, append([]byte(buildTag), data...), 0644); err != nil {
+	if err := os.WriteFile(path, append([]byte(buildTag), data...), 0o644); err != nil {
 		panic(err)
 	}
 }
@@ -25,7 +25,6 @@ func main() {
 	const cborFile = "../cbor_gen.go"
 	if err := cbg.WriteMapEncodersToFile(cborFile, "replica",
 		replica.AllocateArguments{},
-		replica.Blob{},
 		replica.AllocateOK{},
 		replica.TransferArguments{},
 		replica.TransferOK{},

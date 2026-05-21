@@ -9,7 +9,6 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/fil-forge/libforge/ucan/retrieval"
 	"github.com/fil-forge/ucantone/execution"
 	"github.com/fil-forge/ucantone/ipld/datamodel"
 	"github.com/fil-forge/ucantone/principal"
@@ -18,6 +17,8 @@ import (
 	"github.com/fil-forge/ucantone/ucan/container"
 	"github.com/fil-forge/ucantone/ucan/invocation"
 	"github.com/stretchr/testify/require"
+
+	"github.com/fil-forge/libforge/ucan/retrieval"
 )
 
 // startTestServer spins up a retrieval server that registers the given
@@ -58,7 +59,7 @@ func TestClient(t *testing.T) {
 		inv, err := contentRetrieve.Invoke(
 			alice,
 			alice.DID(),
-			datamodel.Map{},
+			&datamodel.Map{},
 			invocation.WithAudience(service.DID()),
 		)
 		require.NoError(t, err)
@@ -107,7 +108,7 @@ func TestClient(t *testing.T) {
 			inv, err := contentRetrieve.Invoke(
 				alice,
 				alice.DID(),
-				datamodel.Map{},
+				&datamodel.Map{},
 				invocation.WithAudience(service.DID()),
 			)
 			require.NoError(t, err)
@@ -132,7 +133,7 @@ func TestClient(t *testing.T) {
 		inv, err := contentRetrieve.Invoke(
 			alice,
 			alice.DID(),
-			datamodel.Map{},
+			&datamodel.Map{},
 			invocation.WithAudience(service.DID()),
 		)
 		require.NoError(t, err)
@@ -163,7 +164,7 @@ func TestClient(t *testing.T) {
 		inv, err := contentRetrieve.Invoke(
 			alice,
 			alice.DID(),
-			datamodel.Map{},
+			&datamodel.Map{},
 			invocation.WithAudience(service.DID()),
 		)
 		require.NoError(t, err)
