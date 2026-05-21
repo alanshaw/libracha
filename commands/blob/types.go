@@ -29,6 +29,9 @@ type AcceptArguments struct {
 
 type AcceptOK struct {
 	Site cid.Cid `cborgen:"site" dagjsongen:"site"`
+	// PDP is a promise of the `/pdp/accept` task result, which completes when
+	// the piece has been aggregated and root added to the node's PDP dataset.
+	PDP promise.AwaitOK `cborgen:"pdp" dagjsongen:"pdp"`
 }
 
 type AllocateArguments struct {
