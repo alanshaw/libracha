@@ -162,6 +162,31 @@ func TestProofChain_Powerline(t *testing.T) {
 	assertChain(t, proofs, links, []ucan.Delegation{root, powerline})
 }
 
+// TestProofChain_PowerlineRoot covers the case where the only delegation in
+// the chain is a powerline issued by the invocation subject itself (the
+// resource owner). This is the shape produced by sprue's access/confirm
+// flow for a did:mailto account: account → agent with did.Undef subject.
+// Without explicit handling, the recursion looks for a parent of the
+// account-issued delegation, finds none, and returns an empty chain —
+// causing the server to reject the invocation as "issued by non-subject
+// with no proofs."
+func TestProofChain_PowerlineRoot(t *testing.T) {
+	account := testutil.RandomSigner(t)
+	agent := testutil.Alice
+	cmd := testutil.Must(command.Parse("/test/do"))(t)
+
+	// account → agent powerline (no subject). The account is the resource
+	// owner; this single delegation IS the proof chain.
+	dlg := testutil.Must(delegation.Delegate(account, agent.DID(), did.Undef, cmd))(t)
+
+	finder := &memLister{delegations: []ucan.Delegation{dlg}}
+	matcher := ucanlib.NewDelegationMatcher(finder.List)
+
+	proofs, links, err := ucanlib.ProofChain(t.Context(), matcher, agent.DID(), cmd, account.DID())
+	require.NoError(t, err)
+	assertChain(t, proofs, links, []ucan.Delegation{dlg})
+}
+
 func TestProofChain_UnrelatedCommandIgnored(t *testing.T) {
 	space := testutil.RandomSigner(t)
 	alice := testutil.Alice

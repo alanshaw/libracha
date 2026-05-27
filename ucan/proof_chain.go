@@ -99,12 +99,21 @@ func proofChain(ctx context.Context, matchDelegations DelegationMatcherFunc, aud
 		if err != nil {
 			return nil, nil, err
 		}
-		if d.Subject() == d.Issuer() {
+		// A delegation is a valid root when its issuer is the invocation
+		// subject we're chaining toward. This covers two cases:
+		//   1. Self-issued: d.Issuer() == d.Subject() == sub (e.g. space
+		//      delegating power over itself to an agent).
+		//   2. Powerline: d.Issuer() == sub && d.Subject() == did.Undef
+		//      (e.g. an account delegating to an agent without specifying
+		//      a subject — common for did:mailto accounts after login).
+		// The matcher only returns delegations where d.Subject() matches
+		// sub or is did.Undef, so we only need to check the issuer here.
+		if d.Issuer() == sub {
 			proofs = append(proofs, d)
 			links = append(links, d.Link())
 			break
 		}
-		// if subject is nil, or subject != issuer, we need more proof
+		// otherwise the chain needs another hop back toward sub
 		ps, ls, err := proofChain(ctx, matchDelegations, d.Issuer(), d.Command(), sub)
 		if err != nil {
 			return nil, nil, err
