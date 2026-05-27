@@ -7,11 +7,15 @@ require (
 	github.com/fil-forge/automobile v0.0.1
 	github.com/fil-forge/ucantone v0.0.0-20260521210642-84d8c533075b
 	github.com/filecoin-project/go-data-segment v0.0.1
+	github.com/filecoin-project/go-fil-commcid v0.3.1
+	github.com/filecoin-project/go-fil-commp-hashhash v0.2.0
 	github.com/gobwas/glob v0.2.3
 	github.com/ipfs/go-cid v0.6.1
 	github.com/ipfs/go-log/v2 v2.9.1
 	github.com/multiformats/go-multibase v0.3.0
+	github.com/multiformats/go-multicodec v0.10.0
 	github.com/multiformats/go-multihash v0.2.3
+	github.com/multiformats/go-varint v0.1.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/stretchr/testify v1.11.1
 	github.com/whyrusleeping/cbor-gen v0.3.1
@@ -27,7 +31,6 @@ require (
 	github.com/mr-tron/base58 v1.3.0 // indirect
 	github.com/multiformats/go-base32 v0.1.0 // indirect
 	github.com/multiformats/go-base36 v0.2.0 // indirect
-	github.com/multiformats/go-varint v0.1.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	gitlab.com/yawning/secp256k1-voi v0.0.0-20230925100816-f2616030848b // indirect
